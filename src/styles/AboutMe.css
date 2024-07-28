@@ -1,0 +1,68 @@
+
+/* AboutMe styling */
+
+.about-me-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns items to the top of the container */
+  }
+  
+  .about-me-content {
+    flex: 1; /* Takes up the remaining space */
+  }
+  
+  .about-me-content ul li {
+    font-weight: 300;
+    margin: 0.25em 0;
+    font-size: 1.3em;
+  }
+  
+  .about-me-image {
+    margin-left: 30rem; /* add space between the text and the image */
+    max-width: 50%;
+    height: 50%;
+  }
+  
+  .about-me-image img {
+    width: 250px; 
+    height: 250px; 
+    border-radius: 50%; /* makes the image a circle */
+    border: 5px solid white; /* adds a border around the image */
+  }
+  
+  /* anchor styling */
+  a {
+    margin-right: 0.5em;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .a:visited {
+    color: white; 
+  }
+  
+  .a:active {
+    color: white;
+  }
+  
+  .link {
+    display: inline;
+  }
+  
+  .bold {
+    font-weight: 540;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  

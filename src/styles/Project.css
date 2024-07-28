@@ -1,0 +1,45 @@
+
+
+.post {
+  display: flex;
+  align-items: center; 
+  justify-content: center; /* Centers children vertically */
+  width: 100%;
+  flex-wrap: wrap;
+  box-sizing: border-box; /* Ensures padding and border are included in width/height */
+}
+
+.post-container {
+  display: flex;
+  height: auto;
+  flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+  margin-bottom: 2em; 
+}
+
+
+.post-container #title {
+  display: flex;
+  flex-direction: row; /* Arrange items in a row */
+  margin-bottom: 0.2em;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.post-container img {
+  display: flex;
+  max-height: 400px;
+  max-width: 1000px;
+  width: auto;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+#post-body {
+  display: flex;
+  text-align: center;
+  margin: 0.75em 2em;
+}
+
+

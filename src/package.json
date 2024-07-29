@@ -17,8 +17,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite --port 3000",
-    "build": "tsc && vite build",
+    "start": "vite",
+    "build": "vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {

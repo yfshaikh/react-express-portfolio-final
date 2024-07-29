@@ -13,7 +13,7 @@ import { dirname } from 'path'
 import path from 'path'
 
 const app = express()
-const PORT = 4000 
+const PORT = process.env.PORT || 4000 
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -25,8 +25,10 @@ app.use(cookieParser())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 const uploadMiddleware = multer({ dest: 'uploads/'})
 
-// load environment variables from credentials.env file
-dotenv.config({ path: '../credentials.env' })
+// Load environment variables from .env file for local development
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config({ path: '../admin/credentials.env' });
+  }
 
 // jwt secret token
 const secret = process.env.JWT_SECRET;

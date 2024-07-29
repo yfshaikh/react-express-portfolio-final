@@ -25,7 +25,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/uploads': {
-        target: 'http://localhost:4000',
+        target: 'https://react-express-portfolio-final-backend.onrender.com/',
         changeOrigin: true,
         secure: false,
       },

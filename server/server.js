@@ -56,25 +56,26 @@ app.listen(PORT, () => {
 
 //handle login
 app.post('/login', (req, res) => {
-    // get username and password from requsest body
-    const {username, password} = req.body
-    console.log('test')
+    // Get username and password from request body
+    const { username, password } = req.body
 
-    // check username and password
+    // Check username and password
     if (username === adminUser && password === adminPass) {
-        console.log('correct')
-        // create json web token
-        jwt.sign({username}, secret, {}, (error, token) => {
-            if(error) throw error;
-            // send response as a cookie
-            res.cookie('token', token).json('ok')
-        })
+        // Create JSON Web Token
+        jwt.sign({ username }, secret, { expiresIn: '1h' }, (error, token) => {
+            if (error) throw error
+
+            // Send response as a cookie
+            res.cookie('token', token, {
+                httpOnly: true, // Ensure the cookie is not accessible via JavaScript
+                secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+                sameSite: 'none', // Required for cross-site cookies
+                maxAge: 3600000 // 1 hour
+            }).json('ok')
+        });
     } else {
-        console.log('wrong')
-        res.status(401).json({ message: 'Invalid username or password' })
+        res.status(401).json({ message: 'Invalid username or password' });
     }
-
-
 })
 
 // verify token

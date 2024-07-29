@@ -18,7 +18,7 @@ function Intro({title}) {
   return (
     <div>
         <h1 id="intro">{title}</h1>
-        <h2 className="subtitle">A <span id="alternating-text">{texts[index % texts.length]}</span> Enthusiast</h2>        
+        <h2 className="subtitle subtitle-main">A <span id="alternating-text">{texts[index % texts.length]}</span> Enthusiast</h2>        
     </div>
   )
 }

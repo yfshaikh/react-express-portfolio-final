@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // middleware
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cors({credentials: true, origin: 'https://react-express-portfolio-final-frontend.onrender.com/'}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))

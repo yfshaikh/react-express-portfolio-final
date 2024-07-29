@@ -35,6 +35,7 @@ footer {
   align-items: center;
   margin-top: 30px;
   background-color: rgb(49, 54, 63);
+  position: relative;
 }
 
 h1 {
@@ -57,11 +58,99 @@ ul {
 
 }
 
-#subtitle {
-  padding-left: 3em;
-  margin-bottom: 1em;
-  display: inline-flex;
+.subtitle {
+  font-size: 2.5rem;
+  text-align: left;
+  color:rgb(255, 255, 255);
+  width: 100%
 }
+
+.subtitle-main {
+  padding-left: 3em;
+  margin-top: 0;
+}
+
+/* Media query for screens smaller than 1024px */
+@media (max-width: 1024px) {
+  #intro {
+    font-size: 4.5rem; /* Adjust font size */
+  }
+
+  .subtitle {
+    font-size: 2rem; /* Adjust font size */
+  }
+
+  .subtitle-main {
+    padding-left: 2em; /* Adjust padding */
+  }
+  
+}
+
+/* Media query for screens smaller than 912px */
+@media (max-width: 912px) {
+  header, footer {
+    width: 107vw;
+  }
+}
+
+/* Media query for screens smaller than 853px */
+@media (max-width: 853px) {
+  header, footer {
+    width: 115vw;
+  }
+}
+
+/* Media query for screens smaller than 820px */
+@media (max-width: 820px) {
+  header, footer {
+    width: 120vw;
+  }
+}
+
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 768px) {
+  #intro {
+    font-size: 3.5rem; /* Adjust font size */
+  }
+
+  .subtitle {
+    font-size: 1.8rem; /* Adjust font size */
+  }
+
+  .subtitle-main {
+    padding-left: 1.5em; /* Adjust padding */
+  }
+
+}
+
+/* Media query for screens smaller than 480px */
+@media (max-width: 480px) {
+  #intro {
+    font-size: 2.5rem; /* Adjust font size */
+    text-align: center; /* Center text for small screens */
+  }
+
+  .subtitle {
+    font-size: 1.5rem; /* Adjust font size */
+    text-align: center; /* Center text for small screens */
+  }
+
+  .subtitle-main {
+    padding-left: 0;
+  }
+
+
+}
+
+/* Media query for screens smaller than 390px */
+@media (max-width: 400px) {
+  .subtitle-main {
+    padding-right: 4rem;
+  }
+}
+
+
 
 
 #alternating-text {
@@ -70,12 +159,6 @@ ul {
   margin-left: 0.5em;
 }
 
-.subtitle {
-  font-size: 2.5rem;
-  text-align: left;
-  color:rgb(255, 255, 255);
-  width: 100%
-}
 
 .section-heading {
   padding-left: 5rem;
@@ -125,23 +208,6 @@ nav {
   display: flex;
   align-content: flex-start;
 }
-
-
-
-/* TODO: make responsive */
-
-/*
-@media (max-width: 600px) {
-  
-}
-*/
-
-
-
-
-
-
-
 
 
 
@@ -389,6 +455,44 @@ a svg {
 }
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

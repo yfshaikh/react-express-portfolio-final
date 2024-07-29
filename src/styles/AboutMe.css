@@ -55,35 +55,6 @@
   }
 
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .about-me-container {
-    flex-direction: column; /* Stacks the items vertically */
-    align-items: center; /* Center align the items */
-  }
-
-  .about-me-image {
-    margin-left: 0; /* Reset margin */
-    margin-top: 1em; /* Add space above the image */
-  }
-
-  .about-me-content ul li {
-    font-size: 1em; /* Adjust font size for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .about-me-content ul li {
-    font-size: 0.9em; /* Further adjust font size for very small screens */
-  }
-
-  .about-me-image img {
-    width: 170px; /* Adjust image size for very small screens */
-    height: 170px; /* Adjust image size for very small screens */
-  }
-}
-
-
 
 
 

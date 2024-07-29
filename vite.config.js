@@ -21,8 +21,12 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
   server: {
-    port: 3000,
     proxy: {
       '/uploads': {
         target: 'https://react-express-portfolio-final-backend.onrender.com/',

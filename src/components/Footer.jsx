@@ -8,7 +8,7 @@ function Footer() {
   const {userInfo, setUserInfo} = useContext(UserContext)
 
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
+    fetch('https://react-express-portfolio-final-backend.onrender.com/profile', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
@@ -23,7 +23,7 @@ function Footer() {
   }, [])
 
   function handleLogout() {
-    fetch('http://localhost:4000/logout', {
+    fetch('https://react-express-portfolio-final-backend.onrender.com/logout', {
       credentials: 'include',
       method: "POST",
     })

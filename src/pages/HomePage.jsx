@@ -12,7 +12,7 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
-    fetch('http://localhost:4000/post').then(response => {
+    fetch('https://react-express-portfolio-final-backend.onrender.com/post').then(response => {
       //response from this api call will have all of the posts
       //fetch and json are async functions so we use .then()
       response.json().then(posts => {

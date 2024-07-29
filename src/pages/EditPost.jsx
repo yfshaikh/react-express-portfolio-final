@@ -15,7 +15,7 @@ function EditPost() {
   const { id } = useParams() // extract the 'id' parameter from the URL
 
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
+    fetch(`https://react-express-portfolio-final-backend.onrender.com/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title)
@@ -34,7 +34,7 @@ function EditPost() {
     if (files?.[0]){
       data.set('file', files?.[0])
     }
-    const test = await fetch('http://localhost:4000/post', {
+    const test = await fetch('https://react-express-portfolio-final-backend.onrender.com/post', {
       method: "PUT",
       body: data,
       credentials: 'include'

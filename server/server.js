@@ -11,7 +11,7 @@ import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import path from 'path'
-import multerGridFsStorage from 'multer-gridfs-storage';
+import { GridFsStorage } from 'multer-gridfs-storage';
 import { GridFSBucket } from 'mongodb'
 
 
@@ -46,7 +46,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => console.error('MongoDB connection error: ', err))
 
 // Create GridFS storage configuration
-const storage = multerGridFsStorage({
+const storage = GridFsStorage({
     url: mongoURI,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {

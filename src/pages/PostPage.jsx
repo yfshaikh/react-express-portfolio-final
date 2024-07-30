@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import API_BASE_URL from '../api';
 
 function PostPage() {
   const { id } = useParams() // extract the 'id' parameter from the URL
@@ -15,7 +16,7 @@ function PostPage() {
 
   // check for authorized user to edit
   async function checkEdit() {
-    const response = await fetch('https://react-express-portfolio-final.vercel.app/profile', {
+    const response = await fetch(`${API_BASE_URL}/profile`, {
       method: "GET",
       credentials: 'include',
     })
@@ -29,7 +30,7 @@ function PostPage() {
    if(confirm("Are you sure you want to delete this post?")){
     e.preventDefault()
     try {
-      const response = await fetch(`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -48,7 +49,7 @@ function PostPage() {
 
   useEffect(() => {
     async function fetchPost() {
-      const response = await fetch(`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post/${id}`)
+      const response = await fetch(`${API_BASE_URL}/post/${id}`)
       const data = await response.json()
       setPost(data)
     }

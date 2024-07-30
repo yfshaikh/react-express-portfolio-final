@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import Editor from '../components/Editor'
 import {useEffect, useState} from "react";
 import { Navigate, useParams} from "react-router-dom";
+import API_BASE_URL from '../api';
 
 
 function EditPost() {
@@ -15,7 +16,7 @@ function EditPost() {
   const { id } = useParams() // extract the 'id' parameter from the URL
 
   useEffect(() => {
-    fetch(`https://react-express-portfolio-final.vercel.app/post/${id}`, {
+    fetch(`${API_BASE_URL}/post/${id}`, {
       credentials: 'include',
     })
       .then(response => {
@@ -36,7 +37,7 @@ function EditPost() {
     if (files?.[0]){
       data.set('file', files?.[0])
     }
-    const test = await fetch('https://react-express-portfolio-final.vercel.app/post', {
+    const test = await fetch (`${API_BASE_URL}/post`, {
       method: "PUT",
       body: data,
       credentials: 'include'
@@ -44,7 +45,6 @@ function EditPost() {
     if(test.ok){
       setRedirect(true)
     }
-
 
   }
   if(redirect){

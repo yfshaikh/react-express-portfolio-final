@@ -2,13 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useEffect, useState, useContext } from 'react'
 import UserContext from '../UserContext.jsx'
+import API_BASE_URL from '../api.jsx'
 
 function Footer() {
   // get context for user info
   const {userInfo, setUserInfo} = useContext(UserContext)
 
   useEffect(() => {
-    fetch('https://react-express-portfolio-final.vercel.app/profile', {
+    fetch(`${API_BASE_URL}/profile`, {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
@@ -23,7 +24,7 @@ function Footer() {
   }, [])
 
   function handleLogout() {
-    fetch('https://react-express-portfolio-final.vercel.app/logout', {
+    fetch(`${API_BASE_URL}/logout`, {
       credentials: 'include',
       method: "POST",
     })

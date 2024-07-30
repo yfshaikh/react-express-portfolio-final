@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import API_BASE_URL from '../api'
 
 function LoginPage() {
     const[username, setUsername] = useState('')
@@ -13,7 +14,7 @@ function LoginPage() {
     async function handleLogin(e) {
         console.log('submitted!')
         e.preventDefault();
-        const response = await fetch('https://react-express-portfolio-final.vercel.app/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
             body: JSON.stringify({username, password}),
             headers: {'Content-Type':'application/json'},

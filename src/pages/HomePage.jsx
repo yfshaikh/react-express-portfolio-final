@@ -5,6 +5,7 @@ import AboutMe from '../components/AboutMe.jsx'
 import Timeline from '../components/Timeline.jsx'
 import Footer from '../components/Footer.jsx'
 import { useEffect, useState } from 'react'
+import API_BASE_URL from '../api.jsx'
 
 function HomePage() {
   
@@ -12,7 +13,7 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
-    fetch('https://react-express-portfolio-final.vercel.app/post', {
+    fetch(`${API_BASE_URL}/post`, {
       credentials: 'include',
     }).then(response => {
       //response from this api call will have all of the posts

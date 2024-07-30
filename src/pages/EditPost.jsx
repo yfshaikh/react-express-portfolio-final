@@ -15,7 +15,9 @@ function EditPost() {
   const { id } = useParams() // extract the 'id' parameter from the URL
 
   useEffect(() => {
-    fetch(`https://react-express-portfolio-final.vercel.app/post/${id}`)
+    fetch(`https://react-express-portfolio-final.vercel.app/post/${id}`, {
+      credentials: 'include',
+    })
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title)

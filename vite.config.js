@@ -25,14 +25,5 @@ export default defineConfig({
     alias: {
       '@': '/src',
     },
-  },
-  server: {
-    proxy: {
-      '/uploads': {
-        target: 'https://react-express-portfolio-final.vercel.app',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
   }
 });

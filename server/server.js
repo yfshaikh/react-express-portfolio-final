@@ -158,7 +158,7 @@ app.post('/post', upload.single('file'), async (req, res) => {
 })
 
 // handles put requests for posts
-app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.put('/post', upload.single('file'), async (req, res) => {
 
     let fileID = null
 

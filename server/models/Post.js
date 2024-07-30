@@ -4,7 +4,7 @@ const { Schema, model } = mongoose
 const PostSchema = new Schema({
     title:String,
     content:String,
-    file:String
+    file: mongoose.Schema.Types.ObjectId // Reference to the file in GridFS
 }, {
     timestamps: true
 })

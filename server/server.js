@@ -11,6 +11,9 @@ import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import path from 'path'
+import multerGridFsStorage from 'multer-gridfs-storage';
+import { GridFSBucket } from 'mongodb'
+
 
 const app = express()
 const PORT = process.env.PORT || 4000 
@@ -18,16 +21,8 @@ const PORT = process.env.PORT || 4000
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// middleware
-app.use(cors({credentials: true, origin: ['https://react-express-portfolio-final-frontend.vercel.app']}))
-app.use((req, res, next) => {
-    console.log('Request Origin:', req.get('Origin'));
-    next();
-  });
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
-const uploadMiddleware = multer({ dest: 'uploads/'})
+
+
 
 // Load environment variables from .env file for local development
 if (process.env.NODE_ENV !== 'production') {
@@ -44,11 +39,44 @@ const adminPass = process.env.PASSWORD;
 
 // MongoDB connection
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
-const connectionString = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const mongoURI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
-mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+  .catch(err => console.error('MongoDB connection error: ', err))
+
+// Create GridFS storage configuration
+const storage = multerGridFsStorage({
+    url: mongoURI,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
+    file: (req, file) => {
+      return {
+        bucketName: 'uploads', // name of the GridFS bucket
+        filename: `${Date.now()}-${file.originalname}` // filename with timestamp
+      }
+    }
+  })
+
+const upload = multer({ storage }) //send uploads to storage
+
+// middleware
+app.use(cors({credentials: true, origin: ['https://react-express-portfolio-final-frontend.vercel.app']}))
+app.use((req, res, next) => {
+    console.log('Request Origin:', req.get('Origin'));
+    next();
+  });
+app.use(bodyParser.json())
+app.use(cookieParser())
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+//const uploadMiddleware = multer({ dest: 'uploads/'})
+
+
+// MongoDB connection for GridFS
+const connection = mongoose.connection;
+let gfs;
+connection.once('open', () => {
+  gfs = new GridFSBucket(connection.db, { bucketName: 'uploads' });
+});
 
 
 
@@ -102,21 +130,15 @@ app.post('/logout', (req, res) => {
 })
 
 // handle post creation
-app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.post('/post', upload.single('file'), async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Request File:', req.file);
+    
 
     // Check if a file is uploaded
     if (!req.file) {
         return res.status(400).json({ error: 'Image file is required' });
     }
-
-    
-    const {originalname, path} = req.file
-    const parts = originalname.split('.')
-    const extension = parts[parts.length - 1]
-    const newPath = path + '.' + extension
-    fs.renameSync(path, newPath)
     
 
     // Access cookies
@@ -129,7 +151,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
         const postDoc = await PostModel.create({
             title: title,
             content: content,
-            file: newPath
+            file: req.file.id //store the file ID from GridFS
         })
         res.json(postDoc)
     })
@@ -137,27 +159,27 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 
 // handles put requests for posts
 app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
-    let newPath = null
+
+    let fileID = null
+
     if(req.file) {
-        const {originalname, path} = req.file
-        const parts = originalname.split('.')
-        const extension = parts[parts.length - 1]
-        newPath = path + '.' + extension
-        fs.renameSync(path, newPath)
+        // if a new file is uploaded, save its ID
+        fileID = req.file.id
     }
 
     // get cookie
-    const {token} = req.cookies
+    const { token } = req.cookies
 
     // Verify cookie and update
     jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error
         const {title, content, id} = req.body
         const postDoc = await PostModel.findById(id);
+        if (!postDoc) { return res.status(404).json({error: "Post not found"})}
         await postDoc.updateOne({
             title, 
             content,
-            file: newPath ? newPath : postDoc.file
+            file: fileID ? fileID : postDoc.file
         })
 
         
@@ -186,12 +208,25 @@ app.get('/post/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
-});
+})
+
+// Get a file by ID
+app.get('/file/:id', (req, res) => {
+    const { id } = req.params;
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
+    const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(id))
+
+    downloadStream.on('error', () => {
+        res.status(404).json({ error: 'Error downloading the file' })
+    });
+
+    downloadStream.pipe(res)
+})
+
 
 // Delete a post by ID
 app.delete('/post/:id', async (req, res) => {
     try {
-        console.log('delete===================================')
       // Access cookies
       const token = req.cookies.token;
   
@@ -203,6 +238,13 @@ app.delete('/post/:id', async (req, res) => {
         const postDoc = await PostModel.findById(req.params.id);
         if (!postDoc) return res.status(404).json({ error: 'Post not found' })
   
+        // Delete the associated file from GridFS
+            const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
+            bucket.delete(new mongoose.Types.ObjectId.createFromTime(postDoc.file), (err) => {
+                if (err) return res.status(500).json({ error: 'Error deleting file' })
+            })
+
+        // delete postDoc
         await postDoc.deleteOne();
         res.json({ message: 'Post deleted successfully' })
       })

@@ -60,7 +60,12 @@ const storage = GridFsStorage({
 const upload = multer({ storage }) //send uploads to storage
 
 // middleware
-app.use(cors({credentials: true, origin: ['https://react-express-portfolio-final-frontend.vercel.app']}))
+app.use(cors({
+    origin: 'https://react-express-portfolio-final-frontend.vercel.app/',
+    credentials: true, // Allow cookies to be sent with requests
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use((req, res, next) => {
     console.log('Request Origin:', req.get('Origin'));
     next();
@@ -106,7 +111,7 @@ app.post('/login', (req, res) => {
             }).json('ok')
         });
     } else {
-        res.status(401).json({ message: `Invalid username or password. Correct cred: ${adminUser} / ${adminPass}` });
+        res.status(401).json({ message: `Invalid username or password. Correct cred: ${adminUser} / ${adminPass}. Input cred: ${username} / ${password}` });
     }
 })
 

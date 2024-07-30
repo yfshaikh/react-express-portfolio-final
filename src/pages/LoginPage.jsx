@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import API_BASE_URL from '../api'
+import API_BASE_URL from '../api.jsx'
 
 function LoginPage() {
     const[username, setUsername] = useState('')

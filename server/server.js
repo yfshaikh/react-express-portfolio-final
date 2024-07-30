@@ -85,6 +85,7 @@ connection.once('open', () => {
 
 
 
+app.options('*', cors()); // Preflight handling for all routes
 
 
 app.listen(PORT, () => {

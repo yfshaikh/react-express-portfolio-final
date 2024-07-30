@@ -106,7 +106,7 @@ app.post('/login', (req, res) => {
             }).json('ok')
         });
     } else {
-        res.status(401).json({ message: 'Invalid username or password' });
+        res.status(401).json({ message: `Invalid username or password. Correct cred: ${adminUser} / ${adminPass}` });
     }
 })
 

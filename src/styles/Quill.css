@@ -1,0 +1,9 @@
+.ql-editor img {
+    display: flex;
+    max-height: 400px;
+    max-width: 1000px;
+    width: auto;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}

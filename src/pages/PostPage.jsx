@@ -15,7 +15,7 @@ function PostPage() {
 
   // check for authorized user to edit
   async function checkEdit() {
-    const response = await fetch('https://react-express-portfolio-final-backend.onrender.com/profile', {
+    const response = await fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/profile', {
       method: "GET",
       credentials: 'include',
     })
@@ -29,7 +29,7 @@ function PostPage() {
    if(confirm("Are you sure you want to delete this post?")){
     e.preventDefault()
     try {
-      const response = await fetch(`https://react-express-portfolio-final-backend.onrender.com/post/${id}`, {
+      const response = await fetch(`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -48,7 +48,7 @@ function PostPage() {
 
   useEffect(() => {
     async function fetchPost() {
-      const response = await fetch(`https://react-express-portfolio-final-backend.onrender.com/post/${id}`)
+      const response = await fetch(`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post/${id}`)
       const data = await response.json()
       setPost(data)
     }
@@ -87,7 +87,7 @@ function PostPage() {
                     </div>
                 </div>
             )}
-            <div className='post-container'><img src={`https://react-express-portfolio-final-backend.onrender.com/${post.file}`} alt={post.title} /></div>
+            <div className='post-container'><img src={`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/${post.file}`} alt={post.title} /></div>
             <div className='post-container' id='post-body'><div dangerouslySetInnerHTML={{ __html: post.content }} /></div>
         </div>
         <Footer />

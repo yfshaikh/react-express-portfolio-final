@@ -29,7 +29,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/uploads': {
-        target: 'https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/',
+        target: 'https://react-express-portfolio-final.vercel.app',
         changeOrigin: true,
         secure: false,
       },

@@ -8,7 +8,7 @@ function Footer() {
   const {userInfo, setUserInfo} = useContext(UserContext)
 
   useEffect(() => {
-    fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/profile', {
+    fetch('https://react-express-portfolio-final.vercel.app/profile', {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
@@ -23,7 +23,7 @@ function Footer() {
   }, [])
 
   function handleLogout() {
-    fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/logout', {
+    fetch('https://react-express-portfolio-final.vercel.app/logout', {
       credentials: 'include',
       method: "POST",
     })

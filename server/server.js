@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // middleware
-app.use(cors({credentials: true, origin: 'https://react-express-portfolio-final-frontend-yfshaikhs-projects.vercel.app'}))
+app.use(cors({credentials: true, origin: 'https://react-express-portfolio-final-frontend.vercel.app'}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))

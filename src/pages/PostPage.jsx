@@ -15,7 +15,7 @@ function PostPage() {
 
   // check for authorized user to edit
   async function checkEdit() {
-    const response = await fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/profile', {
+    const response = await fetch('https://react-express-portfolio-final.vercel.app/profile', {
       method: "GET",
       credentials: 'include',
     })

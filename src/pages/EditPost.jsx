@@ -15,7 +15,7 @@ function EditPost() {
   const { id } = useParams() // extract the 'id' parameter from the URL
 
   useEffect(() => {
-    fetch(`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post/${id}`)
+    fetch(`https://react-express-portfolio-final.vercel.app/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title)
@@ -34,7 +34,7 @@ function EditPost() {
     if (files?.[0]){
       data.set('file', files?.[0])
     }
-    const test = await fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/post', {
+    const test = await fetch('https://react-express-portfolio-final.vercel.app/post', {
       method: "PUT",
       body: data,
       credentials: 'include'

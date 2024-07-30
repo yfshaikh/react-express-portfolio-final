@@ -13,7 +13,7 @@ function LoginPage() {
     async function handleLogin(e) {
         console.log('submitted!')
         e.preventDefault();
-        const response = await fetch('https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/login', {
+        const response = await fetch('https://react-express-portfolio-final.vercel.app/login', {
             method: "POST",
             body: JSON.stringify({username, password}),
             headers: {'Content-Type':'application/json'},

@@ -7,7 +7,7 @@ const Card = ({ title, content, file, _id }) => {
   return (
       <div>
           <div className="card">
-            <div className="card-content" style={{ backgroundImage: `https://react-express-portfolio-final-backend.onrender.com/${post.file}` }}><Link to={`/post/${_id}`} id='project-title'>{title}</Link></div>
+            <div className="card-content" style={{ backgroundImage: `url(${file})` }}><Link to={`/post/${_id}`} id='project-title'>{title}</Link></div>
           </div>
       </div>    
   );

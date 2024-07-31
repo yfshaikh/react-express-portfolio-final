@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Editor from '../components/Editor'
 import '../styles/Quill.css'
+import API_BASE_URL from '../api'
 
 
 

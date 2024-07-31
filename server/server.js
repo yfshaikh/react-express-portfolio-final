@@ -61,7 +61,7 @@ const upload = multer({ storage }) //send uploads to storage
 
 // middleware
 app.use(cors({
-    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend.onrender.com/'],
+    origin: 'https://react-express-portfolio-final-frontend.vercel.app',
     credentials: true, // Allow cookies to be sent with requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -84,8 +84,6 @@ connection.once('open', () => {
 });
 
 
-
-app.options('*', cors()); // Preflight handling for all routes
 
 
 app.listen(PORT, () => {

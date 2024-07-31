@@ -104,7 +104,7 @@ app.post('/login', (req, res) => {
 
             // Send response as a cookie
             res.cookie('token', token, {
-                httpOnly: true, // Ensure the cookie is not accessible via JavaScript
+                httpOnly: false, // Ensure the cookie is accessible via JavaScript
                 secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
                 sameSite: 'none', // Required for cross-site cookies
                 maxAge: 3600000 // 1 hour

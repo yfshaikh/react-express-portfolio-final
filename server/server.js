@@ -90,7 +90,7 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`)
 })
 
-/*
+
 //handle login
 app.post('/login', (req, res) => {
     // Get username and password from request body
@@ -114,11 +114,8 @@ app.post('/login', (req, res) => {
         res.status(401).json({ message: `Invalid username or password. Input cred: ${username} / ${password}` });
     }
 })
-*/
 
-app.post('/login', (req, res) => {
-    return res.status(200).json({message: "test"})
-})
+
 
 // verify token
 app.get('/profile', (req, res) => {

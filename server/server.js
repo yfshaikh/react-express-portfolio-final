@@ -41,31 +41,21 @@ const adminPass = process.env.PASSWORD;
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
 const mongoURI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
-const promise = mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-
-const conn = mongoose.connection
-let gfs
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error: ', err))
 
 // Create GridFS storage configuration
-const storage = new GridFsStorage({
-    db: promise,
+const storage = GridFsStorage({
+    url: mongoURI,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = buf.toString('hex') + path.extname(file.originalname);
-          const fileInfo = {
-            filename: filename,
-            bucketName: 'uploads'
-          };
-          resolve(fileInfo);
-        });
-      });
+      return {
+        bucketName: 'uploads', // name of the GridFS bucket
+        filename: `${Date.now()}-${file.originalname}` // filename with timestamp
+      }
     }
-  });
-  
+  })
 
 const upload = multer({ storage }) //send uploads to storage
 
@@ -86,6 +76,12 @@ app.use(cookieParser())
 //const uploadMiddleware = multer({ dest: 'uploads/'})
 
 
+// MongoDB connection for GridFS
+const connection = mongoose.connection;
+let gfs;
+connection.once('open', () => {
+  gfs = new GridFSBucket(connection.db, { bucketName: 'uploads' });
+});
 
 
 

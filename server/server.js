@@ -154,6 +154,8 @@ app.post('/post', upload.single('file'), async (req, res) => {
     // Verify cookie and post
     jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error
+        console.log("verified cookie")
+        console.log(`file id: ${req.file.id}`)
         const {title, content} = req.body
         const postDoc = await PostModel.create({
             title: title,

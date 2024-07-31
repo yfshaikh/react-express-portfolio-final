@@ -21,7 +21,8 @@ function CreatePost() {
     data.set('title', title)
     data.set('content', content)
     data.set('file', files[0])
-    event.preventDefault();
+    event.preventDefault()
+    console.log(`Making request to: ${API_BASE_URL}/post`)
     const response = await fetch(`${API_BASE_URL}/post`, {
       method: "POST",
       body: data,

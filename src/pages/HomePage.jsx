@@ -13,6 +13,7 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
+    console.log(`Making request to: ${API_BASE_URL}/post`)
     fetch(`${API_BASE_URL}/post`, {
       credentials: 'include',
     }).then(response => {

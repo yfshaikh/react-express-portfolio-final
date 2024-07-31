@@ -9,6 +9,7 @@ function Footer() {
   const {userInfo, setUserInfo} = useContext(UserContext)
 
   useEffect(() => {
+    console.log(`Making request to: ${API_BASE_URL}/profile`)
     fetch(`${API_BASE_URL}/profile`, {
       credentials: 'include',
     }).then(response => {
@@ -24,6 +25,7 @@ function Footer() {
   }, [])
 
   function handleLogout() {
+    console.log(`Making request to: ${API_BASE_URL}/logout`)
     fetch(`${API_BASE_URL}/logout`, {
       credentials: 'include',
       method: "POST",

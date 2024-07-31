@@ -16,6 +16,7 @@ function PostPage() {
 
   // check for authorized user to edit
   async function checkEdit() {
+    console.log(`Making request to: ${API_BASE_URL}/profile`)
     const response = await fetch(`${API_BASE_URL}/profile`, {
       method: "GET",
       credentials: 'include',
@@ -30,6 +31,7 @@ function PostPage() {
    if(confirm("Are you sure you want to delete this post?")){
     e.preventDefault()
     try {
+      console.log(`Making request to: ${API_BASE_URL}/post/${id}`)
       const response = await fetch(`${API_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
@@ -49,6 +51,7 @@ function PostPage() {
 
   useEffect(() => {
     async function fetchPost() {
+      console.log(`Making request to: ${API_BASE_URL}/post/${id}`)
       const response = await fetch(`${API_BASE_URL}/post/${id}`)
       const data = await response.json()
       setPost(data)

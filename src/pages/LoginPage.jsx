@@ -13,7 +13,8 @@ function LoginPage() {
     //TODO: add comment
     async function handleLogin(e) {
         console.log(`submitted! ${username} / ${password}`)
-        e.preventDefault();
+        e.preventDefault()
+        console.log(`Making request to: ${API_BASE_URL}/login`)
         const response = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
             body: JSON.stringify({username, password}),

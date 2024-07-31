@@ -31,7 +31,7 @@ function PostPage() {
    if(confirm("Are you sure you want to delete this post?")){
     e.preventDefault()
     try {
-      console.log(`Making request to: ${API_BASE_URL}/post/${id}`)
+      console.log(`Making DELETE request to: ${API_BASE_URL}/post/${id}`)
       const response = await fetch(`${API_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
@@ -51,8 +51,11 @@ function PostPage() {
 
   useEffect(() => {
     async function fetchPost() {
-      console.log(`Making request to: ${API_BASE_URL}/post/${id}`)
-      const response = await fetch(`${API_BASE_URL}/post/${id}`)
+      console.log(`Making GET request to: ${API_BASE_URL}/post/${id}`)
+      const response = await fetch(`${API_BASE_URL}/post/${id}`, {
+        method: "GET",
+        credentials: "include"
+      })
       const data = await response.json()
       setPost(data)
     }

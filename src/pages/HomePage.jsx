@@ -13,9 +13,10 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
-    console.log(`Making request to: ${API_BASE_URL}/post`)
+    console.log(`Making GET request to: ${API_BASE_URL}/post`)
     fetch(`${API_BASE_URL}/post`, {
       credentials: 'include',
+      method: 'GET'
     }).then(response => {
       //response from this api call will have all of the posts
       //fetch and json are async functions so we use .then()

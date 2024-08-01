@@ -13,18 +13,44 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
-    console.log(`Undefined call: ${API_BASE_URL}/post`)
+    // Fetch posts
     fetch(`${API_BASE_URL}/post`, {
       credentials: 'include',
-      method: 'GET'
-    }).then(response => {
-      //response from this api call will have all of the posts
-      //fetch and json are async functions so we use .then()
-      response.json().then(posts => {
-        setPosts(posts)
-      })
+      method: 'GET',
     })
-  }, []) 
+      .then(response => response.json())
+      .then(posts => {
+        setPosts(posts);
+
+        // Fetch images for each post
+        posts.forEach(post => {
+          if (post.file) {
+            fetchImage(post.file);
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching posts:', error));
+
+    // Fetch image data
+    function fetchImage(fileId) {
+      fetch(`${API_BASE_URL}/file/${fileId}`, {
+        credentials: 'include',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Image fetch failed');
+          }
+          return response.blob(); // Convert response to Blob
+        })
+        .then(blob => {
+          const imageUrl = URL.createObjectURL(blob); // Create an object URL for the Blob
+          setImages(prevImages => ({ ...prevImages, [fileId]: imageUrl }));
+        })
+        .catch(error => console.error('Error fetching image:', error));
+    }
+  }, []);
+  
+      
 
   return (
     <div>
@@ -39,7 +65,7 @@ function HomePage() {
         <div className='row-container'>
             {posts.length > 0 && posts.map((post, index) => (
               //pass all the props of a post to the Card component
-              <Card {...post}/>
+              <Card key={post._id} {...post} image={images[post.file]} />
             ))}
         </div>
         

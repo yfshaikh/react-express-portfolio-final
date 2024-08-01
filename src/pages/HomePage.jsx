@@ -13,7 +13,7 @@ function HomePage() {
   const[posts, setPosts] = useState([])
   
   useEffect(() => {
-    console.log(`Making GET request to: ${API_BASE_URL}/post`)
+    console.log(`Undefined call: ${API_BASE_URL}/post`)
     fetch(`${API_BASE_URL}/post`, {
       credentials: 'include',
       method: 'GET'

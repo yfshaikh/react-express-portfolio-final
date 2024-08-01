@@ -119,7 +119,7 @@ function PostPage() {
                     </div>
                 </div>
             )}
-            <div className='post-container'><img src={`url(${image})`} alt={post.title} /></div>
+            <div className='post-container'><img src={{image}} alt={post.title} /></div>
             <div className='post-container' id='post-body'><div dangerouslySetInnerHTML={{ __html: post.content }} /></div>
         </div>
         <Footer />

@@ -63,7 +63,6 @@ function PostPage() {
       }
     }
 
-    fetchPost()
 
     // Fetch image data
     function fetchImage(fileId) {
@@ -82,6 +81,8 @@ function PostPage() {
         })
         .catch(error => console.error('Error fetching image:', error));
     }
+
+    fetchPost()
 
 
  

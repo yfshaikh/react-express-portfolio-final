@@ -9,8 +9,9 @@ import API_BASE_URL from '../api.jsx'
 
 function HomePage() {
   
-  // dynamic posts
+  // dynamic posts 
   const[posts, setPosts] = useState([])
+  const [images, setImages] = useState({}); // To store image URLs
   
   useEffect(() => {
     // Fetch posts

@@ -13,6 +13,7 @@ function PostPage() {
   const [post, setPost] = useState(null)
   const [edit, setEdit] = useState(false)
   const[redirect, setRedirect] = useState(false)
+  const [image, setImage] = useState({});
 
   // check for authorized user to edit
   async function checkEdit() {
@@ -55,9 +56,36 @@ function PostPage() {
       })
       const data = await response.json()
       setPost(data)
+
+      // Fetch image data if the post has a fileId
+      if (data.file) {
+        fetchImage(data.file);
+      }
     }
 
     fetchPost()
+
+    // Fetch image data
+    function fetchImage(fileId) {
+      fetch(`${API_BASE_URL}/file/${fileId}`, {
+        credentials: 'include',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Image fetch failed');
+          }
+          return response.blob(); // Convert response to Blob
+        })
+        .then(blob => {
+          const imageUrl = URL.createObjectURL(blob); // Create an object URL for the Blob
+          setImage(imageUrl)
+        })
+        .catch(error => console.error('Error fetching image:', error));
+    }
+
+
+    // call fetchImage using the file field of the post (which contains the id used to fetch the image)
+    fetchImage(post.file)
   }, [id])
 
   if (!post) return <div>Loading...</div>
@@ -91,7 +119,7 @@ function PostPage() {
                     </div>
                 </div>
             )}
-            <div className='post-container'><img src={`https://react-express-portfolio-final-yfshaikhs-projects.vercel.app/${post.file}`} alt={post.title} /></div>
+            <div className='post-container'><img src={`url(${image})`} alt={post.title} /></div>
             <div className='post-container' id='post-body'><div dangerouslySetInnerHTML={{ __html: post.content }} /></div>
         </div>
         <Footer />

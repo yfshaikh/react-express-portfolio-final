@@ -11,7 +11,7 @@ function HomePage() {
   
   // dynamic posts 
   const[posts, setPosts] = useState([])
-  const [images, setImages] = useState({}); // To store image URLs
+  const [images, setImages] = useState({}) // To store image URLs
   
   useEffect(() => {
     // Fetch posts

@@ -13,7 +13,7 @@ function PostPage() {
   const [post, setPost] = useState(null)
   const [edit, setEdit] = useState(false)
   const[redirect, setRedirect] = useState(false)
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState(null);
 
   // check for authorized user to edit
   async function checkEdit() {

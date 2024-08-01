@@ -84,8 +84,7 @@ function PostPage() {
     }
 
 
-    // call fetchImage using the file field of the post (which contains the id used to fetch the image)
-    fetchImage(post.file)
+ 
   }, [id])
 
   if (!post) return <div>Loading...</div>

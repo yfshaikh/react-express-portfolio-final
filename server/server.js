@@ -46,7 +46,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => console.error('MongoDB connection error: ', err))
 
 // Create GridFS storage configuration
-const storage = GridFsStorage({
+const storage = new GridFsStorage({
     url: mongoURI,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {

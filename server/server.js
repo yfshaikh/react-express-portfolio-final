@@ -61,7 +61,7 @@ const upload = multer({ storage }) //send uploads to storage
 
 // middleware
 app.use(cors({
-    origin: 'https://react-express-portfolio-final-frontend.vercel.app',
+    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/'],
     credentials: true, // Allow cookies to be sent with requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

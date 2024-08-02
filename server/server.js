@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 4000
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
+console.log(__dirname)
 
 
 

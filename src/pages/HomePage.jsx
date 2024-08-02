@@ -1,29 +1,26 @@
-import Card from '../components/Card.jsx'
-import Intro from '../components/Intro.jsx'
-import Header from '../components/Header.jsx'
-import AboutMe from '../components/AboutMe.jsx'
-import Timeline from '../components/Timeline.jsx'
-import Footer from '../components/Footer.jsx'
-import { useEffect, useState } from 'react'
-import API_BASE_URL from '../api.jsx'
+import Card from '../components/Card.jsx';
+import Intro from '../components/Intro.jsx';
+import Header from '../components/Header.jsx';
+import AboutMe from '../components/AboutMe.jsx';
+import Timeline from '../components/Timeline.jsx';
+import Footer from '../components/Footer.jsx';
+import { useEffect, useState } from 'react';
+import API_BASE_URL from '../api.jsx';
 
 function HomePage() {
-  // dynamic posts 
-  const [posts, setPosts] = useState([])
-  const [images, setImages] = useState({}) // To store image URLs
-  const [loadingPosts, setLoadingPosts] = useState(true)
-  const [loadingImages, setLoadingImages] = useState(true)
+  const [posts, setPosts] = useState([]);
+  const [images, setImages] = useState({}); // To store image URLs
+  const [loading, setLoading] = useState(true); // Unified loading state
 
   useEffect(() => {
-    // Fetch posts
-    fetch(`${API_BASE_URL}/post`, {
-      credentials: 'include',
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(posts => {
+    async function fetchData() {
+      try {
+        const postResponse = await fetch(`${API_BASE_URL}/post`, {
+          credentials: 'include',
+          method: 'GET',
+        });
+        const posts = await postResponse.json();
         setPosts(posts);
-        setLoadingPosts(false);
 
         // Fetch images for each post
         const imagePromises = posts.map(post => {
@@ -33,35 +30,36 @@ function HomePage() {
           return Promise.resolve();
         });
 
-        // Set loadingImages to false once all images are fetched
-        Promise.all(imagePromises).then(() => setLoadingImages(false));
-      })
-      .catch(error => {
-        console.error('Error fetching posts:', error);
-        setLoadingPosts(false);
-        setLoadingImages(false);
-      });
-
-    // Fetch image data
-    function fetchImage(fileId) {
-      return fetch(`${API_BASE_URL}/file/${fileId}`, {
-        credentials: 'include',
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Image fetch failed');
-          }
-          return response.blob(); // Convert response to Blob
-        })
-        .then(blob => {
-          const imageUrl = URL.createObjectURL(blob); // Create an object URL for the Blob
-          setImages(prevImages => ({ ...prevImages, [fileId]: imageUrl }));
-        })
-        .catch(error => console.error('Error fetching image:', error));
+        // Wait for all images to be fetched
+        await Promise.all(imagePromises);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching posts or images:', error);
+        setLoading(false);
+      }
     }
+
+    fetchData();
   }, []);
 
-  if (loadingPosts || loadingImages) {
+  // Fetch image data
+  async function fetchImage(fileId) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/file/${fileId}`, {
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error('Image fetch failed');
+      }
+      const blob = await response.blob(); // Convert response to Blob
+      const imageUrl = URL.createObjectURL(blob); // Create an object URL for the Blob
+      setImages(prevImages => ({ ...prevImages, [fileId]: imageUrl }));
+    } catch (error) {
+      console.error('Error fetching image:', error);
+    }
+  }
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -73,7 +71,7 @@ function HomePage() {
       <h2 className='section-heading subtitle'>Projects</h2>
       <div className='row-container'>
         {posts.length > 0 && posts.map((post, index) => (
-          //pass all the props of a post to the Card component
+          // Pass all the props of a post to the Card component
           <Card key={post._id} {...post} image={images[post.file]} />
         ))}
       </div>

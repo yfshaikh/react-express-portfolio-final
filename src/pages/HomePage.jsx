@@ -15,7 +15,7 @@ function HomePage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const postResponse = await fetch(`${API_BASE_URL}/post`, {
+        const postResponse = await fetch(`${API_BASE_URL}/api/post`, {
           credentials: 'include',
           method: 'GET',
         });
@@ -45,7 +45,7 @@ function HomePage() {
   // Fetch image data
   async function fetchImage(fileId) {
     try {
-      const response = await fetch(`${API_BASE_URL}/file/${fileId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/file/${fileId}`, {
         credentials: 'include',
       });
       if (!response.ok) {

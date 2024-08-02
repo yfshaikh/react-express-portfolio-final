@@ -16,7 +16,6 @@ import { GridFSBucket } from 'mongodb'
 
 
 const app = express()
-const PORT = process.env.PORT || 4000 
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -86,9 +85,6 @@ connection.once('open', () => {
 
 
 
-app.listen(PORT, () => {
-    console.log(`server started on port ${PORT}`)
-})
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -269,4 +265,10 @@ app.delete('/post/:id', async (req, res) => {
 // for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
+  })
+
+
+const PORT = process.env.PORT || 4000 
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`)
+})

@@ -90,6 +90,10 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`)
 })
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'dist')));
+
+  
 
 //handle login
 app.post('/login', (req, res) => {
@@ -261,3 +265,8 @@ app.delete('/post/:id', async (req, res) => {
       res.status(500).json({ error: 'Server error' })
     }
   })
+
+// for any request that doesn't match one above, send back index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });

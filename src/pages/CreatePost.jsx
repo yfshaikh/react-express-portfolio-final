@@ -22,7 +22,7 @@ function CreatePost() {
     data.set('content', content)
     data.set('file', files[0])
     event.preventDefault()
-    const response = await fetch(`${API_BASE_URL}/api/post`, {
+    const response = await fetch(`${API_BASE_URL}/post`, {
       method: "POST",
       body: data,
       credentials: 'include',

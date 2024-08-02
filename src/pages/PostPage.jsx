@@ -17,7 +17,7 @@ function PostPage() {
 
   // check for authorized user to edit
   async function checkEdit() {
-    const response = await fetch(`${API_BASE_URL}/api/profile`, {
+    const response = await fetch(`${API_BASE_URL}/profile`, {
       method: "GET",
       credentials: 'include',
     })
@@ -31,7 +31,7 @@ function PostPage() {
    if(confirm("Are you sure you want to delete this post?")){
     e.preventDefault()
     try {
-      const response = await fetch(`${API_BASE_URL}/api/post/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -50,7 +50,7 @@ function PostPage() {
 
   useEffect(() => {
     async function fetchPost() {
-      const response = await fetch(`${API_BASE_URL}/api/post/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/post/${id}`, {
         method: "GET",
         credentials: "include"
       })
@@ -66,7 +66,7 @@ function PostPage() {
 
     // Fetch image data
     function fetchImage(fileId) {
-      fetch(`${API_BASE_URL}/api/file/${fileId}`, {
+      fetch(`${API_BASE_URL}/file/${fileId}`, {
         credentials: 'include',
       })
         .then(response => {

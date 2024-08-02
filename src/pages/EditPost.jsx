@@ -16,7 +16,7 @@ function EditPost() {
   const { id } = useParams() // extract the 'id' parameter from the URL
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/post/${id}`, {
+    fetch(`${API_BASE_URL}/post/${id}`, {
       credentials: 'include',
     })
       .then(response => {
@@ -37,7 +37,7 @@ function EditPost() {
     if (files?.[0]){
       data.set('file', files?.[0])
     }
-    const test = await fetch (`${API_BASE_URL}/api/post`, {
+    const test = await fetch (`${API_BASE_URL}/post`, {
       method: "PUT",
       body: data,
       credentials: 'include'

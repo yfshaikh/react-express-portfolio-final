@@ -17,7 +17,6 @@ export default defineConfig({
       },
     }),
   ],
-  root: '.', // the root directory where index.html is located
   resolve: {
     alias: {
       '@': '/src',

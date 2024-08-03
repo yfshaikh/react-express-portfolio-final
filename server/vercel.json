@@ -2,28 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",  
+      "src": "server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "../dist/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/server",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://react-express-portfolio-final-frontend.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true"
-      }
-    },
-    {
       "src": "/(.*)",
-      "dest": "/dist/$1"   
+      "dest": "server.js"
     }
   ]
 }

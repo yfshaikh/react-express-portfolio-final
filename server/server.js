@@ -96,7 +96,7 @@ app.get('/', (req, res) => {
     return res.status(200).json({ message: "Server"})
 })
 //handle login
-app.post('/api/login', (req, res) => {
+app.post('/login', (req, res) => {
     // Get username and password from request body
     const { username, password } = req.body
 
@@ -122,7 +122,7 @@ app.post('/api/login', (req, res) => {
 
 
 // verify token
-app.get('/api/profile', (req, res) => {
+app.get('/profile', (req, res) => {
     // get token from request body
     // const token = req.cookies.token
     const {token} = req.cookies
@@ -136,12 +136,12 @@ app.get('/api/profile', (req, res) => {
 })
 
 // handle logout (reset token)
-app.post('/api/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok')
 })
 
 // handle post creation
-app.post('/api/post', upload.single('file'), async (req, res) => {
+app.post('/post', upload.single('file'), async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Request File:', req.file);
     
@@ -171,7 +171,7 @@ app.post('/api/post', upload.single('file'), async (req, res) => {
 })
 
 // handles put requests for posts
-app.put('/api/post', upload.single('file'), async (req, res) => {
+app.put('/post', upload.single('file'), async (req, res) => {
 
     let fileID = null
 
@@ -203,7 +203,7 @@ app.put('/api/post', upload.single('file'), async (req, res) => {
 })
 
 // handles get requests for posts
-app.get('/api/post', async (req, res) => {
+app.get('/post', async (req, res) => {
     // find all posts from PostModel
     const posts = await PostModel.find()
 
@@ -213,7 +213,7 @@ app.get('/api/post', async (req, res) => {
 
 
 // get a post by ID
-app.get('/api/post/:id', async (req, res) => {
+app.get('/post/:id', async (req, res) => {
     try {
         const postDoc = await PostModel.findById(req.params.id);
         if (!postDoc) return res.status(404).json({ message: 'Post not found' });
@@ -224,7 +224,7 @@ app.get('/api/post/:id', async (req, res) => {
 })
 
 // Get a file by ID
-app.get('/api/file/:id', (req, res) => {
+app.get('/file/:id', (req, res) => {
     const { id } = req.params;
     const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
     const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(id))
@@ -238,7 +238,7 @@ app.get('/api/file/:id', (req, res) => {
 
 
 // Delete a post by ID
-app.delete('/api/post/:id', async (req, res) => {
+app.delete('/post/:id', async (req, res) => {
     try {
       // Access cookies
       const token = req.cookies.token;

@@ -17,7 +17,7 @@
     },
     {
       "source": "/api/(.*)",
-      "destination": "/src/index.jsx"
+      "destination": "/index.html"
     }
   ]
 }

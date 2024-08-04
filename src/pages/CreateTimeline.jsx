@@ -67,14 +67,14 @@ function CreateTimeline() {
             onChange={(event) => setSubtitle(event.target.value)}
           />
           <input
-            type='date'
+            type='text'
             placeholder='start date'
             value={startDate}
             onChange={(event) => setStartDate(event.target.value)}
             required
           />
           <input
-            type='date'
+            type='text'
             placeholder='end date'
             value={endDate}
             onChange={(event) => setEndDate(event.target.value)}

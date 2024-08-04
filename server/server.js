@@ -292,8 +292,8 @@ app.delete('/api/post/:id', async (req, res) => {
                 title,
                 subtitle,
                 description,
-                startDate: new Date(startDate),
-                endDate: endDate ? new Date(endDate) : null,
+                startDate,
+                endDate
             })
             res.json(timelineDoc)
         })

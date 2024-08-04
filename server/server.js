@@ -254,7 +254,7 @@ app.delete('/api/post/:id', async (req, res) => {
   
         // Delete the associated file from GridFS
             const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
-            bucket.deleteOne(new mongoose.Types.ObjectId.createFromTime(postDoc.file), (err) => {
+            bucket.deleteOne(new mongoose.Types.ObjectId.createFromHexString(postDoc.file), (err) => {
                 if (err) return res.status(500).json({ error: 'Error deleting file' })
             })
 

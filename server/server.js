@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import multer from 'multer'
 import fs from 'fs'
 import PostModel from './models/Post.js'
+import TimelineModel from './models/Timeline.js'
 import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -266,6 +267,39 @@ app.delete('/api/post/:id', async (req, res) => {
     }
   })
 
+    // handles get requests for timeline
+    app.get('/api/timeline', async (req, res) => {
+        try {
+            // find all timelines from PostModel
+            const timelines = await TimelineModel.find()
+            // send posts as response
+            res.json(timelines)
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching timelines', error });
+        }
+    })
+
+    // Create a new timeline
+    app.post('/api/timeline', async (req, res) => {
+        // Access cookies
+        const token = req.cookies.token
+
+        // Verify cookie and post
+        jwt.verify(token, secret, {}, async (error, info) => {
+            if (error) throw error
+            console.log("verified cookie")
+            const {title, subtitle, description, startDate, endDate} = req.body
+            const timelineDoc = await PostModel.create({
+                title: title,
+                subtitle: subtitle,
+                description: description,
+                startDate: startDate,
+                endDate: endDate
+            })
+            res.json(timelineDoc)
+        })
+    });
+
 // for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
@@ -276,3 +310,4 @@ const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`)
 })
+ 

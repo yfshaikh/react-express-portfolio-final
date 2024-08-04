@@ -11,6 +11,7 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [images, setImages] = useState({}); // To store image URLs
   const [loading, setLoading] = useState(true); // Unified loading state
+  const [timeline, setTimeline] = useState([]); //timeline of experience
 
   useEffect(() => {
     async function fetchData() {
@@ -39,8 +40,24 @@ function HomePage() {
       }
     }
 
-    fetchData();
-  }, []);
+    async function fetchTimelineData() {
+      try {
+        const timelineResponse = await fetch(`${API_BASE_URL}/timeline`, {
+          credentials: 'include',
+          method: 'GET',
+        });
+        const timelines = await timelineResponse.json();
+        setTimeline(timelines)
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching timeline:', error);
+        setLoading(false);
+      }
+    }
+
+    fetchData()
+    fetchTimelineData()
+  }, []); 
 
   // Fetch image data
   async function fetchImage(fileId) {
@@ -76,7 +93,12 @@ function HomePage() {
         ))}
       </div>
       <h2 className='section-heading subtitle'>Experience</h2>
-      <div className='row-container'><Timeline /></div>
+      <div className='row-container'>
+        {timeline.length > 0 && timeline.map((experience) => (
+          // Pass all the props of a timeline to the Timeline component
+          <Timeline key={experience._id} {...experience} />
+        ))}
+      </div>
       <Footer />
     </div>
   );

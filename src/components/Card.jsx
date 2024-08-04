@@ -13,4 +13,4 @@ const Card = ({ title, content, image, _id }) => {
   );
 };
 
-export default Card;
+export default Card; 

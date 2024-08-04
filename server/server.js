@@ -89,7 +89,7 @@ connection.once('open', () => {
 
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
   
 app.get('/api', (req, res) => {
@@ -268,7 +268,7 @@ app.delete('/api/post/:id', async (req, res) => {
 
 // for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
   })
 
 

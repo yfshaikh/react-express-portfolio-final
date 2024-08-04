@@ -10,7 +10,7 @@ import '../styles/Timeline.css'
             <div className="timeline-content">
                 <h3>{title}</h3>
                 <h4>{subtitle}</h4>
-                <p><div dangerouslySetInnerHTML={{ __html: description }} /></p>
+                <div dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </div>
         </div> 

@@ -280,6 +280,8 @@ app.delete('/api/post/:id', async (req, res) => {
 
     // Create a new timeline
     app.post('/api/timeline', async (req, res) => {
+        console.log('Request Body:', req.body);
+        
         // Access cookies
         const token = req.cookies.token
 

@@ -244,7 +244,7 @@ app.delete('/api/post/:id', async (req, res) => {
       // Access cookies
       const token = req.cookies.token;
   
-      // Ve1rify token
+      // Verify token
       jwt.verify(token, secret, {}, async (error, info) => {
         if (error) return res.status(401).json({ error: 'Unauthorized' })
   
@@ -254,7 +254,7 @@ app.delete('/api/post/:id', async (req, res) => {
   
         // Delete the associated file from GridFS
             const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
-            bucket.delete(new mongoose.Types.ObjectId.createFromTime(postDoc.file), (err) => {
+            bucket.deleteOne(new mongoose.Types.ObjectId.createFromTime(postDoc.file), (err) => {
                 if (err) return res.status(500).json({ error: 'Error deleting file' })
             })
 

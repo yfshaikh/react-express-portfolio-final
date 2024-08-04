@@ -1,3 +1,6 @@
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
+
 const TimelineSchema = new Schema({
     title:String,
     subtitle:String,

@@ -1,91 +1,86 @@
-
-/* Timeline.css */
 .timeline-container {
-    display: flex;
-    justify-content: flex-start; /* Aligns the timeline to the left */
-    width: 100%; /* Full width to ensure it aligns to the left of the screen */
-    padding: 20px 0;
-    margin-left: -3rem;
-  }
-  
-  .timeline {
-    position: relative;
-    max-width: 600px; /* Maximum width of the timeline */
-    width: 100%;
-    margin: 0;
-    padding: 20px 0;
-  }
-  
-  .timeline-item {
-    display: flex;
-    align-items: flex-start;
-    padding: 10px 0;
-    position: relative;
-  }
-  
-  .timeline-date {
-    flex: 0 0 100px; /* Fixed width for the date container */
-    text-align: right;
-    padding-right: 20px;
-    padding-top: 15px;
-    font-weight: 550;
-  }
-  
-  .timeline-content {
-    flex: 1;
-    padding-left: 40px; /* Increased padding to accommodate the centered circle */
-    border-left: 2px solid #ccc;
-    position: relative;
-  }
-  
-  .timeline-content::before {
-    content: '';
-    position: absolute;
-    left: -13px; /* Adjusted to center the circle on the line */
-    top: 20%; /* Center vertically */
-    transform: translateY(-50%); /* Center vertically */
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border: 3px solid lightcoral;
-    border-radius: 50%;
-    z-index: 1;
-  }
-  
-  .timeline-content h3,
-  .timeline-content h4 {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .timeline-content p {
-    margin-top: 5px;
-  }
-  
-  h3 { 
-    font-size: 2rem;
-  }
-  
-  h4 {
-    font-size: 1.5rem;
-  }
-  
-  
-  .timeline-content::after {
-    content: '';
-    position: absolute;
-    left: -2px; /* Adjusted to align with the border */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: calc(100% + 40px); /* Connects to the next item */
-    background-color: #ccc;
-    z-index: 0;
-  }
-  
-  /* Remove the last ::after pseudo-element */
-  .timeline-item:last-child .timeline-content::after {
-    display: none;
-  }
-  
+  display: flex;
+  justify-content: flex-start; /* Aligns the timeline to the left */
+  width: 100%; /* Full width to ensure it aligns to the left of the screen */
+  padding: 20px 0;
+  margin-left: -3rem;
+}
+
+.timeline {
+  position: relative;
+  max-width: 600px; /* Maximum width of the timeline */
+  width: 100%;
+  margin: 0;
+  padding: 20px 0;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  position: relative;
+}
+
+.timeline-date {
+  flex: 0 0 100px; /* Fixed width for the date container */
+  text-align: right;
+  padding-right: 20px;
+  padding-top: 15px;
+  font-weight: 550;
+}
+
+.timeline-content {
+  flex: 1;
+  padding-left: 40px; /* Increased padding to accommodate the centered circle */
+  border-left: 2px solid #ccc;
+  position: relative;
+}
+
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  left: -13px; /* Adjusted to center the circle on the line */
+  top: 20px; /* Fixed position from the top */
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 3px solid lightcoral;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-content::after {
+  content: '';
+  position: absolute;
+  left: -2px; /* Adjusted to align with the border */
+  top: 0; /* Start from the top */
+  width: 2px;
+  height: calc(100% + 20px); /* Connects to the next item */
+  background-color: #ccc;
+  z-index: 0;
+}
+
+.timeline-content h3,
+.timeline-content h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.timeline-content p {
+  margin-top: 5px;
+}
+
+h3 { 
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+/* Remove the last ::after pseudo-element */
+.timeline-item:last-child .timeline-content::after {
+  display: none;
+}
+
   

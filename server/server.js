@@ -289,11 +289,11 @@ app.delete('/api/post/:id', async (req, res) => {
             console.log("verified cookie")
             const {title, subtitle, description, startDate, endDate} = req.body
             const timelineDoc = await TimelineModel.create({
-                title: title,
-                subtitle: subtitle,
-                description: description,
-                startDate: startDate,
-                endDate: endDate
+                title,
+                subtitle,
+                description,
+                startDate: new Date(startDate),
+                endDate: endDate ? new Date(endDate) : null,
             })
             res.json(timelineDoc)
         })

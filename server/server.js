@@ -29,7 +29,7 @@ const __dirname = dirname(__filename)
 
 // Load environment variables from .env file for local development
 if (process.env.NODE_ENV !== 'production') {
-    dotenv.config({ path: '../admin/credentials.env' });
+    dotenv.config({ path: '../credentials.env' });
   }
 
 
@@ -72,7 +72,7 @@ const upload = multer({ storage }) //send uploads to storage
 
 
 app.use(cors({
-    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/', 'yfshaikh.com'],
+    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/', 'yfshaikh.com', 'http://localhost:5173'],
     credentials: true, // Allow cookies to be sent with requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

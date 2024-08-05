@@ -103,7 +103,8 @@ h3 {
 .timeline-circle {
     position: relative;
     top: 0;
-    margin-left: 2em;
+    z-index: 10;
+    margin-left: 1.5em;
     width: 20px;
     height: 20px;
     align-items: flex-start;

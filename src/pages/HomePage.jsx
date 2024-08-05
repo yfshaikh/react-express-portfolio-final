@@ -94,15 +94,18 @@ function HomePage() {
           <Card key={post._id} {...post} image={images[post.file]} />
         ))}
       </div>
-      <h2 className='section-heading subtitle'>Experience</h2>
-      <div className='row-container'>
-        <div className='timeline'>
-          {timeline.length > 0 && timeline.map((experience) => (
-            // Pass all the props of a timeline to the Timeline component
-            <Timeline key={experience._id} {...experience} />
-          ))}
+      <div className='design-section'>
+        <h2 className='section-heading subtitle'>Experience</h2>
+        <div className='row-container'>
+          <div className='timeline'>
+            {timeline.length > 0 && timeline.map((experience) => (
+              // Pass all the props of a timeline to the Timeline component
+              <Timeline key={experience._id} {...experience} />
+            ))}
+          </div>
         </div>
       </div>
+     
       <Footer />
     </div>
   );

@@ -14,12 +14,10 @@
 .timeline {
   width: 80%;
   max-width: 800px;
-  margin: 0 auto;
   position: relative;
   padding: 20px;
-  background-color: #1f1f1f;
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: transparent; /* Transparent background */
+  margin: 0 auto;
 }
 
 .timeline-content {
@@ -29,11 +27,10 @@
           box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424;
   border-radius: 5px;
   color: white;
-  margin: 1rem 0;
-  border-radius: 6px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  padding-right: 50px;
+  margin-bottom: 20px;
+  padding-left: 50px;
 }
 
 .timeline-content:hover {
@@ -50,10 +47,15 @@
   background-color: #8A2387;
 }
 
-.timeline-component {
-  position: relative;
-  padding-left: 60px; /* space for the line */
-  margin-bottom: 30px;
+.timeline-circle {
+  position: absolute;
+  left: 14px; /* Align circle with the line */
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387);
+  border: 3px solid #1f1f1f;
+  z-index: 1;
 }
 
 @media screen and (min-width: 768px) {
@@ -63,10 +65,14 @@
   }
 
   .timeline-line {
-    left: 40px; /* Adjust for larger screens */
+    left: 30px; /* Adjust for larger screens */
   }
 
   .timeline-content {
-    padding-right: 20px; /* Adjust for larger screens */
+    padding-left: 60px; /* Space for the line and circle */
+  }
+
+  .timeline-circle {
+    top: 20px; /* Adjust for positioning */
   }
 }

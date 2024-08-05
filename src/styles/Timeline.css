@@ -4,14 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: rgb(34, 40, 49);
   min-height: 100vh;
   font-family: Jost, sans-serif;
 }
 
 .timeline {
-  width: 80%;
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
   position: relative;

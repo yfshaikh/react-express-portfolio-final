@@ -6,6 +6,8 @@ import Timeline from '../components/Timeline.jsx';
 import Footer from '../components/Footer.jsx';
 import { useEffect, useState } from 'react';
 import API_BASE_URL from '../api.jsx';
+import '../index.css'
+import '../styles/Timeline.css'
 
 function HomePage() {
   const [posts, setPosts] = useState([]);
@@ -94,10 +96,12 @@ function HomePage() {
       </div>
       <h2 className='section-heading subtitle'>Experience</h2>
       <div className='row-container'>
-        {timeline.length > 0 && timeline.map((experience) => (
-          // Pass all the props of a timeline to the Timeline component
-          <Timeline key={experience._id} {...experience} />
-        ))}
+        <div className='timeline'>
+          {timeline.length > 0 && timeline.map((experience) => (
+            // Pass all the props of a timeline to the Timeline component
+            <Timeline key={experience._id} {...experience} />
+          ))}
+        </div>
       </div>
       <Footer />
     </div>

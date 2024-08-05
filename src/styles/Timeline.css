@@ -20,14 +20,6 @@
   margin: 0 auto;
 }
 
-.timeline-line {
-  position: absolute;
-  left: 50%;
-  width: 2px;
-  background-color: #8A2387;
-  z-index: 0;
-}
-
 .timeline-content {
   padding: 20px;
   background: #1f1f1f;
@@ -37,7 +29,7 @@
   color: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  margin-bottom: 40px; /* Ensure enough space for connecting lines */
+  margin-bottom: 20px;
   padding-left: 50px;
 }
 
@@ -46,9 +38,18 @@
   box-shadow: 10px 10px 20px #1a1a1a, -10px -10px 20px #242424;
 }
 
+.timeline-line {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 2px;
+  height: 100%;
+  background-color: #8A2387;
+}
+
 .timeline-circle {
   position: absolute;
-  left: calc(50% - 7.5px); /* Center the circle horizontally */
+  left: 14px; /* Align circle with the line */
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -72,6 +73,6 @@
   }
 
   .timeline-circle {
-    left: 30px; /* Adjust for circle placement */
+    top: 20px; /* Adjust for positioning */
   }
 }

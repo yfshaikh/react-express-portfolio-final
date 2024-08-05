@@ -18,9 +18,12 @@ import { GridFSBucket } from 'mongodb'
 
 const app = express()
 
+// Get the filename of the current module
 const __filename = fileURLToPath(import.meta.url)
+
+// Get the directory name of the current module
 const __dirname = dirname(__filename)
-console.log(__dirname)
+
 
 
 
@@ -29,6 +32,7 @@ if (process.env.NODE_ENV !== 'production') {
     dotenv.config({ path: '../admin/credentials.env' });
   }
 
+
 // jwt secret token
 const secret = process.env.JWT_SECRET;
 
@@ -36,14 +40,19 @@ const secret = process.env.JWT_SECRET;
 const adminUser = process.env.USERNAME;
 const adminPass = process.env.PASSWORD;
 
-
-// MongoDB connection
+// get mongoDB credentials from env
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
+
+// database URI
 const mongoURI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
+
+// connrect to mongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error: ', err))
+
+
 
 // Create GridFS storage configuration
 const storage = new GridFsStorage({
@@ -60,20 +69,21 @@ const storage = new GridFsStorage({
 const upload = multer({ storage }) //send uploads to storage
 
 // middleware
+
+
 app.use(cors({
     origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/', 'yfshaikh.com'],
     credentials: true, // Allow cookies to be sent with requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use((req, res, next) => {
-    console.log('Request Origin:', req.get('Origin'));
-    next();
-  });
+
+// parses the JSON data in the request body and makes it available on req.body
 app.use(bodyParser.json())
+
+// parses the cookies in the incoming request and makes them available on req.cookies
 app.use(cookieParser())
-//app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
-//const uploadMiddleware = multer({ dest: 'uploads/'})
+
 
 
 
@@ -82,6 +92,7 @@ app.use(cookieParser())
 const connection = mongoose.connection;
 let gfs;
 connection.once('open', () => {
+  //  initialize a new GridFS bucket for file storage
   gfs = new GridFSBucket(connection.db, { bucketName: 'uploads' });
 });
 
@@ -92,10 +103,12 @@ connection.once('open', () => {
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
-  
+
 app.get('/api', (req, res) => {
     return res.status(200).json({ message: "Server"})
 })
+
+
 //handle login
 app.post('/api/login', (req, res) => {
     // Get username and password from request body
@@ -136,10 +149,13 @@ app.get('/api/profile', (req, res) => {
     })
 })
 
+
 // handle logout (reset token)
 app.post('/api/logout', (req, res) => {
     res.cookie('token', '').json('ok')
 })
+
+
 
 // handle post creation
 app.post('/api/post', upload.single('file'), async (req, res) => {
@@ -170,6 +186,8 @@ app.post('/api/post', upload.single('file'), async (req, res) => {
         res.json(postDoc)
     })
 })
+
+
 
 // handles put requests for posts
 app.put('/api/post', upload.single('file'), async (req, res) => {
@@ -203,6 +221,8 @@ app.put('/api/post', upload.single('file'), async (req, res) => {
 
 })
 
+
+
 // handles get requests for posts
 app.get('/api/post', async (req, res) => {
     // find all posts from PostModel
@@ -211,6 +231,8 @@ app.get('/api/post', async (req, res) => {
     // send posts as response
     res.json(posts)
 })
+
+
 
 
 // get a post by ID
@@ -224,6 +246,8 @@ app.get('/api/post/:id', async (req, res) => {
     }
 })
 
+
+
 // Get a file by ID
 app.get('/api/file/:id', (req, res) => {
     const { id } = req.params;
@@ -236,6 +260,8 @@ app.get('/api/file/:id', (req, res) => {
 
     downloadStream.pipe(res)
 })
+
+
 
 
 // Delete a post by ID
@@ -266,45 +292,52 @@ app.delete('/api/post/:id', async (req, res) => {
     }
   })
 
-    // handles get requests for timeline
-    app.get('/api/timeline', async (req, res) => {
-        try {
-            // find all timelines from PostModel
-            const timelines = await TimelineModel.find()
-            // send posts as response
-            res.json(timelines)
-        } catch (error) {
-            res.status(500).json({ message: 'Error fetching timelines', error });
-        }
-    })
 
-    // Create a new timeline
-    app.post('/api/timeline', async (req, res) => {
-        console.log('Request Body:', req.body);
-        
-        // Access cookies
-        const token = req.cookies.token
+// handles get requests for timeline
+app.get('/api/timeline', async (req, res) => {
+    try {
+        // find all timelines from PostModel
+        const timelines = await TimelineModel.find()
+        // send posts as response
+        res.json(timelines)
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching timelines', error });
+    }
+})
 
-        // Verify cookie and post
-        jwt.verify(token, secret, {}, async (error, info) => {
-            if (error) throw error
-            console.log("verified cookie")
-            const {title, subtitle, description, startDate, endDate} = req.body
-            const timelineDoc = await TimelineModel.create({
-                title,
-                subtitle,
-                description,
-                startDate,
-                endDate
-            })
-            res.json(timelineDoc)
+
+
+// Create a new timeline
+app.post('/api/timeline', async (req, res) => {
+    console.log('Request Body:', req.body);
+    
+    // Access cookies
+    const token = req.cookies.token
+
+    // Verify cookie and post
+    jwt.verify(token, secret, {}, async (error, info) => {
+        if (error) throw error
+        console.log("verified cookie")
+        const {title, subtitle, description, startDate, endDate} = req.body
+        const timelineDoc = await TimelineModel.create({
+            title,
+            subtitle,
+            description,
+            startDate,
+            endDate
         })
-    });
+        res.json(timelineDoc)
+    })
+});
+
+
 
 // for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
   })
+
+
 
 
 const PORT = process.env.PORT || 4000 

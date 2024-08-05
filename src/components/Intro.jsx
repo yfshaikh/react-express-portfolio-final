@@ -5,6 +5,7 @@ const texts = ['Computer Science', 'Machine Learning', 'Software Engineering', '
 function Intro({title}) {
   const [index, setIndex] = React.useState(0);
 
+  // alternating text
   React.useEffect(() => {
     const intervalId = setInterval(
       () => setIndex((index) => index + 1),

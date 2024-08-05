@@ -3,6 +3,7 @@
 .design-section {
   display: flex;
   flex-direction: column;
+  justify-content: left;
   background-color: rgb(34, 40, 49);
   min-height: 100vh;
   font-family: Jost, sans-serif;
@@ -87,7 +88,7 @@ h3 {
 
 .timeline-circle {
     position: relative;
-    left: 1em;
+    left: 1.5em;
     top: 0;
     width: 20px;
     height: 20px;

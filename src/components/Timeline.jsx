@@ -13,7 +13,7 @@ const Timeline = ({ title, subtitle, description, startDate, endDate, _id }) => 
           <p>{description}</p>
           <h5>{startDate} - {endDate}</h5>
         </div>
-      </div>
+      </div> 
     </>
         
 

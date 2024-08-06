@@ -9,6 +9,7 @@ function Navigation() {
             <ul>
             <li><Link to='/' className='nav-btn'>Home</Link></li>
             <li><Link to='/resume' className='nav-btn'>Resume</Link></li>
+            <li><Link to='/notes' className='nav-btn'>Notes</Link></li>
             </ul>
         </nav>
     </div>

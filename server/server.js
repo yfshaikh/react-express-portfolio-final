@@ -8,6 +8,7 @@ import multer from 'multer'
 import fs from 'fs'
 import PostModel from './models/Post.js'
 import TimelineModel from './models/Timeline.js'
+import PDFModel from './models/PDF.js'
 import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -329,6 +330,78 @@ app.post('/api/timeline', async (req, res) => {
         res.json(timelineDoc)
     })
 });
+
+
+
+
+// handles get requests for pdf titles
+app.get('/api/pdfTitle', async (req, res) => {
+    // find all pdf titles from PDFModel
+    const titles = await PDFModel.find()
+
+    // send titles as response
+    res.json(titles)
+})
+
+// get a pdf title by ID
+app.get('/api/pdfTitle/:id', async (req, res) => {
+    try {
+        const pdfDoc = await PDFModel.findById(req.params.id);
+        if (!pdfDoc) return res.status(404).json({ message: 'Title not found' });
+        res.json(pdfDoc);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+})
+
+
+
+// Get a pdf by ID
+app.get('/api/pdf/:id', (req, res) => {
+    const { id } = req.params;
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
+    const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(id))
+
+    downloadStream.on('error', () => {
+        res.status(404).json({ error: 'Error downloading the file' })
+    });
+
+    downloadStream.pipe(res)
+})
+
+
+// upload a pdf
+app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
+    console.log('Request Body:', req.body);
+    console.log('Request File:', req.file);
+    
+
+    // Check if a file is uploaded
+    if (!req.file) {
+        return res.status(400).json({ error: 'File not uploaded' });
+    }
+    
+
+    // Access cookies
+    const token = req.cookies.token
+
+    // Verify cookie and post
+    jwt.verify(token, secret, {}, async (error, info) => {
+        if (error) throw error
+        console.log("verified cookie")
+        console.log(`file id: ${req.file.id}`)
+        const {title} = req.body
+        const pdfDoc = await PDFModel.create({
+            title: title,
+            file: req.file.id //store the file ID from GridFS
+        })
+        res.json(pdfDoc)
+    })
+  });
+
+
+  
+  
 
 
 

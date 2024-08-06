@@ -10,7 +10,7 @@ const Timeline = ({ title, subtitle, description, startDate, endDate, _id }) => 
         <div className="timeline-content">
           <h3>{title}</h3>
           <h4>{subtitle}</h4>
-          <p>{description}</p>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
           <h5>{startDate} - {endDate}</h5>
         </div>
       </div> 

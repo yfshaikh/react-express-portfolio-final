@@ -12,6 +12,8 @@ import { useState } from 'react'
 import PostPage from './pages/PostPage.jsx'
 import EditPost from './pages/EditPost.jsx'
 import CreateTimeline from './pages/CreateTimeline.jsx'
+import NotesPage from './pages/NotesPage.jsx'
+import UploadNotes from './pages/UploadNotes.jsx'
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
                 <Route path="/post/:id" element={<PostPage />} /> 
                 <Route path="/edit/:id" element={<EditPost />} /> 
                 <Route path="/createTimeline" element={<CreateTimeline />} /> 
+                <Route path="/notes" element={<NotesPage />} />
+                <Route path="/uploadNotes" element={<UploadNotes />} />
               </Routes>
             </div>
       </UserContextProvider>

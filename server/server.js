@@ -74,7 +74,7 @@ const upload = multer({ storage }) //send uploads to storage
 
 
 app.use(cors({
-    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/', 'https://www.yfshaikh.com/', 'http://localhost:5173'],
+    origin: ['https://react-express-portfolio-final-frontend.vercel.app', 'https://react-express-portfolio-final-frontend-msdeb2dib.vercel.app/', 'https://www.yfshaikh.com', 'http://localhost:5173'],
     credentials: true, // Allow cookies to be sent with requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -438,7 +438,7 @@ app.post('/api/uploadImage', upload.single('image'), (req, res) => {
       .catch(err => res.status(500).json({ error: 'Failed to save image info' }));
   });
 
-  
+
 // fetch an image by ID
 app.get('/api/image/:id', async (req, res) => {
     // get the image id from the request

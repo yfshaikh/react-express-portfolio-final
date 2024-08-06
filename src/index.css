@@ -336,6 +336,7 @@ input {
   color: white;
 }
 
+
 #file {
   padding-left: 30%;
 }
@@ -453,6 +454,30 @@ a svg {
   display: inline-flex;
   gap: 10px;
 }
+
+
+/* file upload styling */
+
+.file-upload {
+  display: flex;
+  margin-bottom: 5px;
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  padding: 10px 14px;
+  border: 0.5px solid white;
+  background-color: lightskyblue;
+  color: rgb(49, 54, 63);
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+  
+  
+
 
   
 

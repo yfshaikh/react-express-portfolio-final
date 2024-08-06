@@ -9,6 +9,7 @@ import fs from 'fs'
 import PostModel from './models/Post.js'
 import TimelineModel from './models/Timeline.js'
 import PDFModel from './models/PDF.js'
+import ImageModel from './models/Image.js'
 import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -336,11 +337,11 @@ app.post('/api/timeline', async (req, res) => {
 
 // handles get requests for pdf titles
 app.get('/api/pdfTitle', async (req, res) => {
-    // find all pdf titles from PDFModel
-    const titles = await PDFModel.find()
+    // find all pdf titles (and image IDs) from PDFModel
+    const pdfs = await PDFModel.find({})
 
-    // send titles as response
-    res.json(titles)
+    // send as response
+    res.json(pdfs)
 })
 
 // get a pdf title by ID
@@ -371,6 +372,26 @@ app.get('/api/pdf/:id', (req, res) => {
 
 
 // upload a pdf
+
+app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
+    const { title, imageId } = req.body; // Expect imageId in the request body
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+  
+    const pdfDoc = {
+      title: title,
+      file: req.file.id, // store the file ID from GridFS
+      image: imageId, // store the associated image ID
+    };
+  
+    PDFModel.create(pdfDoc)
+      .then(result => res.json(result))
+      .catch(err => res.status(500).json({ error: 'Failed to save PDF info' }));
+  });
+  
+
+/*
 app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Request File:', req.file);
@@ -398,6 +419,52 @@ app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
         res.json(pdfDoc)
     })
   });
+*/
+
+
+// handle image uploads
+app.post('/api/uploadImage', upload.single('image'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image uploaded' });
+    }
+  
+    const imageDoc = {
+      file: req.file.id // store the file ID from GridFS
+    };
+  
+    // Save the image information to the database
+    ImageModel.create(imageDoc)
+      .then(result => res.json(result))
+      .catch(err => res.status(500).json({ error: 'Failed to save image info' }));
+  });
+
+  
+// fetch an image by ID
+app.get('/api/image/:id', async (req, res) => {
+    // get the image id from the request
+    const imageId = new mongoose.Types.ObjectId(req.params.id);
+
+    console.log(`Fetching image with ID: ${imageId}`);
+
+    // find the image document in the collection
+    const imageDoc = await ImageModel.findById(imageId);
+  
+    // initialize GridFSBucket
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
+
+    // ppen a download stream
+    const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(imageDoc.file))
+
+    downloadStream.on('error', () => {
+        res.status(404).json({ error: 'Error downloading the file' })
+    });
+
+    downloadStream.pipe(res)
+  });
+
+
+
+
 
 
   

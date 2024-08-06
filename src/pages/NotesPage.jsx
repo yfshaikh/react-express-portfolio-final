@@ -1,66 +1,105 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Card from '../components/Card';
 import '../index.css';
+import API_BASE_URL from '../api';
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
-  const [PDFs, setPDFs] = useState({}); // To store PDF URLs
+  const [PDFs, setPDFs] = useState({});
+  const [images, setImages] = useState({});
 
+  // useEffect hook to fetch data on component mount
   useEffect(() => {
     async function fetchData() {
       try {
+        // fetch pdf titles and associated file IDs (the pdf schema includes title, file, and image id)
         const noteResponse = await fetch(`${API_BASE_URL}/pdfTitle`, {
-          credentials: 'include',
+          credentials: 'include', 
           method: 'GET',
         });
+        // convert response to JSON
         const noteResponseJson = await noteResponse.json();
+        // store notes data in state
         setNotes(noteResponseJson);
 
-        // Fetch PDF for each note
-        const pdfPromises = noteResponseJson.map(note => {
-          if (note.file) {
-            return fetchPDF(note.file);
-          }
-          return Promise.resolve(); // Return resolved promise for notes without files
+        // for each note, fetch the associated pdf and image id
+        const fetchPromises = noteResponseJson.map(note => {
+          // fetch the PDF (param: the file id associated with a pdf)
+          const pdfFetch = note.file ? fetchPDF(note.file) : Promise.resolve();
+          // fetch the image (param: the image object id associated with a pdf)
+          const imageFetch = note.image ? fetchImage(note.image) : Promise.resolve();
+          // return a promise that resolves when both fetches are complete
+          return Promise.all([pdfFetch, imageFetch]);
         });
 
-        // Wait for all PDF files to be fetched
-        await Promise.all(pdfPromises);
+        // wait for all fetch operations to complete
+        await Promise.all(fetchPromises);
 
       } catch (error) {
         console.error('Error fetching note titles or PDFs:', error);
       }
     }
 
-    // Fetch PDF function
+    // fetch a pdf by id
     async function fetchPDF(fileId) {
       try {
+        // fetch the pdf file
         const response = await fetch(`${API_BASE_URL}/pdf/${fileId}`, {
           credentials: 'include',
         });
+
         if (!response.ok) {
           throw new Error('PDF fetch failed');
         }
-        const blob = await response.blob(); // Convert response to Blob
-        const pdfUrl = URL.createObjectURL(blob); // Create an object URL for the Blob
+
+        // convert response to Blob (binary data)
+        const blob = await response.blob();
+        // create an object URL for the Blob
+        const pdfUrl = URL.createObjectURL(blob);
+        // store the pdf url in state
         setPDFs(prevPDFs => ({ ...prevPDFs, [fileId]: pdfUrl }));
       } catch (error) {
         console.error('Error fetching PDF:', error);
       }
     }
 
-    fetchData(); // Call the function to start fetching data
+    // fetch an image by ID
+    async function fetchImage(imageId) {
+      console.log(`Fetching image from URL: ${API_BASE_URL}/image/${imageId}`);
+      try {
+        // fetch image (param: the id of the image object)
+        // api will go to the image object, get the associated file id, and fetch the file
+        const response = await fetch(`${API_BASE_URL}/image/${imageId}`, {
+          credentials: 'include', 
+        });
 
-  }, []); // Empty dependency array to run only once
+        if (!response.ok) {
+          throw new Error('Image fetch failed');
+        }
+        // convert response to Blob (binary data)
+        const blob = await response.blob();
+        // create an object url for the Blob
+        const imageUrl = URL.createObjectURL(blob);
+        // store the image url in state
+        setImages(prevImages => ({ ...prevImages, [imageId]: imageUrl }));
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    }
+
+    
+    fetchData(); 
+
+  }, []); 
 
   return (
     <div>
       <Header />
       <div className='row-container'>
         {notes.length > 0 && notes.map((note, index) => (
-          // Assuming Card component accepts these props
-          <Card key={note._id} {...note} pdfUrl={PDFs[note.file]} />
+          <Card key={note._id} {...note} pdfUrl={PDFs[note.file]} image={images[note.image]} />
         ))}
       </div>
       <Footer />

@@ -332,6 +332,75 @@ app.post('/api/timeline', async (req, res) => {
     })
 });
 
+// get a timeline by ID
+app.get('/api/timeline/:id', async (req, res) => {
+    try {
+        // find the timeline
+        const timelineDoc = await TimelineModel.findById(req.params.id);
+        if (!timelineDoc) return res.status(404).json({ message: 'Timeline not found' });
+
+
+        res.json(timelineDoc);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+})
+
+// handles put requests for timlines
+app.put('/api/timeline', upload.none(), async (req, res) => {
+
+    // get cookie
+    const { token } = req.cookies
+
+    // Verify cookie and update
+    //jwt.verify(token, secret, {}, async (error, info) => {
+        //if (error) throw error
+        const {title, subtitle, description, startDate, endDate, id} = req.body
+        const timelineDoc = await TimelineModel.findById(id);
+        if (!timelineDoc) { return res.status(404).json({error: "Timeline not found"})}
+        await timelineDoc.updateOne({
+            title,
+            subtitle,
+            description,
+            startDate,
+            endDate
+        })
+
+        
+        res.json({ message: 'Timeline updated successfully' });
+    //})
+
+
+})
+
+
+// Delete a timeline by ID
+app.delete('/api/timeline/:id', async (req, res) => {
+    try {
+      // Access cookies (commented out for testing purposes)
+      // const token = req.cookies.token;
+  
+      // Verify token (commented out for testing purposes)
+      /*
+      jwt.verify(token, secret, async (error, info) => {
+        if (error) return res.status(401).json({ error: 'Unauthorized' });
+      });
+      */
+  
+      // Find and delete the timeline
+      const timelineDoc = await TimelineModel.findById(req.params.id);
+      if (!timelineDoc) return res.status(404).json({ error: 'Timeline not found' });
+  
+      // Delete timelineDoc
+      await timelineDoc.deleteOne();
+      res.json({ message: 'Timeline deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting timeline:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
+
 
 
 
@@ -355,14 +424,14 @@ app.get('/api/pdfTitle/:id', async (req, res) => {
     }
 })
 
-
+ 
 
 // Get a pdf by ID
 app.get('/api/pdf/:id', (req, res) => {
     const { id } = req.params;
     const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' })
     const downloadStream = bucket.openDownloadStream(new mongoose.Types.ObjectId(id))
-
+    res.setHeader('Content-Type', 'application/pdf'); // ensure the content type is set to PDF
     downloadStream.on('error', () => {
         res.status(404).json({ error: 'Error downloading the file' })
     });
@@ -461,6 +530,7 @@ app.get('/api/image/:id', async (req, res) => {
 
     downloadStream.pipe(res)
   });
+
 
 
 

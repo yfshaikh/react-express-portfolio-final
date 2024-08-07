@@ -24,7 +24,7 @@ function PostPage() {
     if (response.ok) {
       setEdit(true)
     } 
-  }
+  } 
 
   // delete
   async function handleDelete(e) {

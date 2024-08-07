@@ -375,6 +375,10 @@ input {
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); 
 }
 
+.edit-container {
+  max-width: 600px;
+}
+
 /* post styling */
 
 .post {
@@ -471,68 +475,3 @@ a svg {
   align-items: center;
   justify-content: center;
 }
-
-
-
-
-  
-  
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -38,8 +38,8 @@ function Footer() {
        <footer>
             <nav>
                {username ? 
-                (<ul><li><Link to='/create'>Create Post</Link></li> <li><Link to='/createTimeline'>Create Timeline</Link></li> <li><a onClick={handleLogout}>Logout</a></li></ul>) : 
-                (<ul><li><Link to='/login'>Login</Link></li> <li><Link to='/uploadNotes'>Upload Notes</Link></li></ul>)
+                (<ul><li><Link to='/create'>Create Post</Link></li> <li><Link to='/createTimeline'>Create Timeline</Link></li> <li><Link to='/uploadNotes'>Upload Notes</Link></li> <li><a onClick={handleLogout}>Logout</a></li></ul>) : 
+                (<ul><li><Link to='/login'>Login</Link></li> <li><Link to='/uploadNotes'>Upload Notes</Link></li> <li><Link to='/createTimeline'>Create Timeline</Link></li></ul>)
                } 
             </nav> 
         </footer>     

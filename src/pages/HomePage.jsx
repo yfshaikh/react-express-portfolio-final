@@ -91,7 +91,7 @@ function HomePage() {
       <div className='row-container'>
         {posts.length > 0 && posts.map((post, index) => (
           // Pass all the props of a post to the Card component
-          <Card key={post._id} {...post} image={images[post.file]} />
+          <Card key={post._id} {...post} image={images[post.file]} type={'post'}/>
         ))}
       </div>
       <div className='design-section'>

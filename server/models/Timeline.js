@@ -5,7 +5,7 @@ const TimelineSchema = new Schema({
     title:String,
     subtitle:String,
     description:String,
-    startDate:String,
+    startDate:String, 
     endDate:String
 
 })

@@ -22,7 +22,7 @@ function EditPost() {
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title)
-          setContent(postInfo.content)
+          setContent(postInfo.content) 
           setFiles(postInfo.file)
         })
       })
@@ -63,7 +63,7 @@ function EditPost() {
                 onChange={(event) => setFiles(event.target.files)} 
                 id='file'/>
           <Editor onChange={setContent} value={content}/>
-          <button style={{marginTop: '5px'}}>Create post</button>
+          <button style={{marginTop: '5px'}}>Update post</button>
         </form>
       </div>
       <Footer />

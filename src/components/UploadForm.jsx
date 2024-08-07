@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import API_BASE_URL from '../api';
 import '../index.css';
+import { Link, Navigate } from 'react-router-dom';
 
 const UploadForm = () => {
   const [pdfFile, setPdfFile] = useState(null);
@@ -9,6 +10,7 @@ const UploadForm = () => {
   const [pdfUploaded, setPdfUploaded] = useState(false);
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageId, setImageId] = useState(null);
+  const[redirect, setRedirect] = useState(false)
 
   const handlePdfChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -34,6 +36,7 @@ const UploadForm = () => {
         const result = await response.json();
         setImageId(result._id); // Store the image ID
         setImageUploaded(true);
+        setRedirect(true)
       } else {
         alert('Failed to upload image');
       }
@@ -73,6 +76,10 @@ const UploadForm = () => {
       alert('Failed to upload files');
     }
   };
+
+  if(redirect){
+    return <Navigate to={'/'} />
+  }
 
   return (
     <div className='login-container'>

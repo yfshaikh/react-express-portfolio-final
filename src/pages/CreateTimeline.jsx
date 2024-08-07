@@ -79,12 +79,14 @@ function CreateTimeline() {
             value={endDate}
             onChange={(event) => setEndDate(event.target.value)}
           />
-          <Editor onChange={setDescription} value={description} />
+          <div className='edit-container'>
+            <Editor onChange={setDescription} value={description} />
+          </div>
           <button style={{ marginTop: '5px' }}>Create Timeline</button>
         </form>
       </div>
       <Footer />
-    </>
+    </> 
   );
 }
 

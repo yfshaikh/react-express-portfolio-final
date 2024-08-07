@@ -19,6 +19,12 @@
   overflow: hidden;
 }
 
+.timeline-btn-container {
+  justify-content: left;
+  padding-top: 1em;
+}
+
+
 /* Timeline Card Styling */
 .timeline-content {
   padding: 30px;

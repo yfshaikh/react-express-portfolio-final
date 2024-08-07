@@ -14,6 +14,8 @@ import EditPost from './pages/EditPost.jsx'
 import CreateTimeline from './pages/CreateTimeline.jsx'
 import NotesPage from './pages/NotesPage.jsx'
 import UploadNotes from './pages/UploadNotes.jsx'
+import DisplayNote from './pages/DisplayNote.jsx'
+import EditTimeline from './pages/EditTimeline.jsx'
 
 function App() {
 
@@ -28,10 +30,12 @@ function App() {
                 <Route path = '/login' element={<LoginPage />} /> 
                 <Route path = '/create' element={<CreatePost />} />  
                 <Route path="/post/:id" element={<PostPage />} /> 
+                <Route path="/pdf/:id" element={<DisplayNote />} /> 
                 <Route path="/edit/:id" element={<EditPost />} /> 
                 <Route path="/createTimeline" element={<CreateTimeline />} /> 
                 <Route path="/notes" element={<NotesPage />} />
                 <Route path="/uploadNotes" element={<UploadNotes />} />
+                <Route path='/editTimeline/:id' element={<EditTimeline />} />
               </Routes>
             </div>
       </UserContextProvider>

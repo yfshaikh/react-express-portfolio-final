@@ -38,7 +38,7 @@ function HomePage() {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching posts or images:', error);
-        setLoading(false);
+        setLoading(true);
       }
     }
 

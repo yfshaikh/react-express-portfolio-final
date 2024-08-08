@@ -475,3 +475,13 @@ a svg {
   align-items: center;
   justify-content: center;
 }
+
+
+/* loading styling */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

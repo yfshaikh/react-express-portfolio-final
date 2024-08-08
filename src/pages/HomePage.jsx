@@ -13,7 +13,7 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [images, setImages] = useState({}); // To store image URLs
   const [loading, setLoading] = useState(true); // Unified loading state
-  const [timeline, setTimeline] = useState([]); //timeline of experience
+  const [timeline, setTimeline] = useState([]); // Timeline of experience
 
   useEffect(() => {
     async function fetchData() {
@@ -35,10 +35,9 @@ function HomePage() {
 
         // Wait for all images to be fetched
         await Promise.all(imagePromises);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching posts or images:', error);
-        setLoading(true);
+        throw error; // Re-throw to catch in outer catch block
       }
     }
 
@@ -49,16 +48,24 @@ function HomePage() {
           method: 'GET',
         });
         const timelines = await timelineResponse.json();
-        setTimeline(timelines)
-        setLoading(false);
+        setTimeline(timelines);
       } catch (error) {
         console.error('Error fetching timeline:', error);
-        setLoading(false);
+        throw error; // Re-throw to catch in outer catch block
       }
     }
 
-    fetchData()
-    fetchTimelineData()
+    async function loadData() {
+      try {
+        await Promise.all([fetchData(), fetchTimelineData()]);
+        setLoading(false); // Set loading to false after both requests are complete
+      } catch (error) {
+        console.error('Error loading data:', error);
+        setLoading(false); // Set loading to false even if there's an error
+      }
+    }
+
+    loadData(); // Call the unified loadData function
   }, []); 
 
   // Fetch image data
@@ -79,7 +86,7 @@ function HomePage() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='loading'>Loading...</div>; // Show loading indicator while data is being fetched
   }
 
   return (
@@ -105,10 +112,10 @@ function HomePage() {
           </div>
         </div>
       </div>
-     
       <Footer />
     </div>
   );
 }
 
 export default HomePage;
+

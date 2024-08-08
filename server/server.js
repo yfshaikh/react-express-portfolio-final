@@ -353,8 +353,8 @@ app.put('/api/timeline', upload.none(), async (req, res) => {
     const { token } = req.cookies
 
     // Verify cookie and update
-    //jwt.verify(token, secret, {}, async (error, info) => {
-        //if (error) throw error
+    jwt.verify(token, secret, {}, async (error, info) => {
+        if (error) throw error
         const {title, subtitle, description, startDate, endDate, id} = req.body
         const timelineDoc = await TimelineModel.findById(id);
         if (!timelineDoc) { return res.status(404).json({error: "Timeline not found"})}
@@ -368,7 +368,7 @@ app.put('/api/timeline', upload.none(), async (req, res) => {
 
         
         res.json({ message: 'Timeline updated successfully' });
-    //})
+    })
 
 
 })
@@ -377,15 +377,12 @@ app.put('/api/timeline', upload.none(), async (req, res) => {
 // Delete a timeline by ID
 app.delete('/api/timeline/:id', async (req, res) => {
     try {
-      // Access cookies (commented out for testing purposes)
-      // const token = req.cookies.token;
+      // Access cookies
+      const token = req.cookies.token;
   
-      // Verify token (commented out for testing purposes)
-      /*
+      // Verify token and delete
       jwt.verify(token, secret, async (error, info) => {
         if (error) return res.status(401).json({ error: 'Unauthorized' });
-      });
-      */
   
       // Find and delete the timeline
       const timelineDoc = await TimelineModel.findById(req.params.id);
@@ -394,6 +391,8 @@ app.delete('/api/timeline/:id', async (req, res) => {
       // Delete timelineDoc
       await timelineDoc.deleteOne();
       res.json({ message: 'Timeline deleted successfully' });
+
+      });
     } catch (error) {
       console.error('Error deleting timeline:', error);
       res.status(500).json({ error: 'Server error' });
@@ -443,52 +442,35 @@ app.get('/api/pdf/:id', (req, res) => {
 // upload a pdf
 
 app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
-    const { title, imageId } = req.body; // Expect imageId in the request body
+
+    const { title, imageId } = req.body; // expect imageId in the request body
+
+
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
-  
-    const pdfDoc = {
-      title: title,
-      file: req.file.id, // store the file ID from GridFS
-      image: imageId, // store the associated image ID
-    };
-  
-    PDFModel.create(pdfDoc)
-      .then(result => res.json(result))
-      .catch(err => res.status(500).json({ error: 'Failed to save PDF info' }));
-  });
-  
-
-/*
-app.post('/api/uploadPdf', upload.single('file'), (req, res) => {
-    console.log('Request Body:', req.body);
-    console.log('Request File:', req.file);
-    
-
-    // Check if a file is uploaded
-    if (!req.file) {
-        return res.status(400).json({ error: 'File not uploaded' });
-    }
-    
 
     // Access cookies
     const token = req.cookies.token
-
+  
     // Verify cookie and post
     jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error
-        console.log("verified cookie")
-        console.log(`file id: ${req.file.id}`)
-        const {title} = req.body
-        const pdfDoc = await PDFModel.create({
-            title: title,
-            file: req.file.id //store the file ID from GridFS
-        })
-        res.json(pdfDoc)
-    })
+        const pdfDoc = {
+        title: title,
+        file: req.file.id, // store the file ID from GridFS
+        image: imageId, // store the associated image ID
+        };
+    
+        PDFModel.create(pdfDoc)
+        .then(result => res.json(result))
+        .catch(err => res.status(500).json({ error: 'Failed to save PDF info' }));
+    });
+
   });
-*/
+  
+
+
 
 
 // handle image uploads
@@ -496,15 +478,21 @@ app.post('/api/uploadImage', upload.single('image'), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No image uploaded' });
     }
+
+    // Access cookies
+    const token = req.cookies.token
   
-    const imageDoc = {
-      file: req.file.id // store the file ID from GridFS
-    };
-  
-    // Save the image information to the database
-    ImageModel.create(imageDoc)
-      .then(result => res.json(result))
-      .catch(err => res.status(500).json({ error: 'Failed to save image info' }));
+    // Verify cookie and post
+    jwt.verify(token, secret, {}, async (error, info) => {
+        const imageDoc = {
+        file: req.file.id // store the file ID from GridFS
+        };
+    
+        // Save the image information to the database
+        ImageModel.create(imageDoc)
+        .then(result => res.json(result))
+        .catch(err => res.status(500).json({ error: 'Failed to save image info' }));
+    });
   });
 
 

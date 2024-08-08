@@ -48,6 +48,7 @@ const Timeline = ({ title, subtitle, description, startDate, endDate, _id }) => 
   if(redirect){
     return <Navigate to={'/'} />
   }
+  checkEdit()
   return (
     <>
       <div className="timeline-line"></div>

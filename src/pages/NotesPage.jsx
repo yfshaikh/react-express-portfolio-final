@@ -9,6 +9,7 @@ function NotesPage() {
   const [notes, setNotes] = useState([]);
   const [PDFs, setPDFs] = useState({});
   const [images, setImages] = useState({});
+  const [loading, setLoading] = useState(true); // Unified loading state
 
   // useEffect hook to fetch data on component mount
   useEffect(() => {
@@ -37,8 +38,11 @@ function NotesPage() {
         // wait for all fetch operations to complete
         await Promise.all(fetchPromises);
 
+        // Set loading to false after all fetches are complete
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching note titles or PDFs:', error);
+        console.error('Error fetching note titles, PDFs, or images:', error);
+        setLoading(false); // Ensure loading state is set to false even on error
       }
     }
 
@@ -89,10 +93,11 @@ function NotesPage() {
       }
     }
 
-    
-    fetchData(); 
+    fetchData();
 
-  }, []); 
+  }, []);
+
+  if (loading) return <div className='loading'>Loading...</div>; // Show loading indicator until all data is fetched
 
   return (
     <div>

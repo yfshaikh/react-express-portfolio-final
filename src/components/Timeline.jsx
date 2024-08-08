@@ -6,7 +6,7 @@ import API_BASE_URL from '../api';
 
 
 const Timeline = ({ title, subtitle, description, startDate, endDate, _id }) => {
-  const [edit, setEdit] = useState(true)
+  const [edit, setEdit] = useState(false)
   const [redirect, setRedirect] = useState(false)
 
 

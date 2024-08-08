@@ -5,7 +5,6 @@ function Editor({value, onChange}) {
 
 
   const modules = {
-    'syntax': true,
     'toolbar': [
       [{ 'font': [] }, { 'size': [] }],
       [ 'bold', 'italic', 'underline', 'strike' ],

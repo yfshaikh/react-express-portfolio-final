@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import AboutMe from '../components/AboutMe.jsx';
 import Timeline from '../components/Timeline.jsx';
 import Footer from '../components/Footer.jsx';
+import Loader from '../components/Loader.jsx';
 import { useEffect, useState } from 'react';
 import API_BASE_URL from '../api.jsx';
 import '../index.css'
@@ -86,7 +87,7 @@ function HomePage() {
   }
 
   if (loading) {
-    return <div className='loading'>Loading...</div>; // Show loading indicator while data is being fetched
+    return <Loader />; // Show loading indicator while data is being fetched
   }
 
   return (

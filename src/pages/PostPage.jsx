@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import API_BASE_URL from '../api';
+import Loader from '../components/Loader';
 
 function PostPage() {
   const { id } = useParams(); // extract the 'id' parameter from the URL
@@ -94,7 +95,7 @@ function PostPage() {
     }
   }
 
-  if (loading) return <div className='loading'>Loading...</div>; // Show loading indicator until all data is fetched
+  if (loading) return <Loader />; // Show loading indicator until all data is fetched
   if (redirect) return <Navigate to={'/'} />; // Redirect if post is deleted
 
   return (

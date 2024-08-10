@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import DisplayPDF from '../components/DisplayPDF'
 import API_BASE_URL from '../api'
 import { useParams } from 'react-router-dom'
+import Loader from '../components/Loader'
 
 
 function DisplayNote() {
@@ -65,7 +66,7 @@ function DisplayNote() {
   }, [id])
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator
+    return <Loader />; // Show a loading indicator
   }
 
   if (error) {

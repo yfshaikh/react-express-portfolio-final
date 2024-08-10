@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Card from '../components/Card';
 import '../index.css';
 import API_BASE_URL from '../api';
+import Loader from '../components/Loader';
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
@@ -97,7 +98,7 @@ function NotesPage() {
 
   }, []);
 
-  if (loading) return <div className='loading'>Loading...</div>; // Show loading indicator until all data is fetched
+  if (loading) return <Loader />; // Show loading indicator until all data is fetched
 
   return (
     <div>

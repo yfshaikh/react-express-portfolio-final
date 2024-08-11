@@ -104,7 +104,7 @@ function NotesPage() {
     <div>
       <Header />
       <div className='pdf-container'>
-        <h2 style={{fontWeight: '400'}}>These are my notes, I publish notes from college classes, online courses, and anything else I'm interested in!</h2>
+        <h2 style={{fontWeight: '400'}}>These are my notes. I publish notes from college classes, online courses, and anything else I'm interested in!</h2>
       </div>
       <div className='row-container' style={{paddingBottom: '20em'}}>
         {notes.length > 0 && notes.map((note, index) => (

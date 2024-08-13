@@ -46,7 +46,7 @@ const adminPass = process.env.PASSWORD;
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
 
 // database URI
-const mongoURI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/test`
+const mongoURI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.y9e7wxr.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0`
 
 
 // connrect to mongoDB
